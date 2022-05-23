@@ -55,7 +55,9 @@ from algo_input import run
 
 
 class Solution:
+
     def countSubstrings(self, s: str) -> int:
+
         def palin(i, j):
             res = 0
             while i >= 0 and j < len(s) and i <= j:
@@ -79,14 +81,14 @@ class Solution:
 
 
 # @lc code=end
-
-run(
-    MethodType(Solution.countSubstrings, Solution()),
-    [
-        [["a"], 1],
-        [[""], 0],
-        [["abc"], 3],
-        [["aaa"], 6],
-        [[ascii_letters + "".join(reversed(ascii_letters))], 156],
-    ],
-)
+if __name__ == "__main__":
+    run(
+        MethodType(Solution.countSubstrings, Solution()),
+        [
+            [["a"], 1],
+            [[""], 0],
+            [["abc"], 3],
+            [["aaa"], 6],
+            [[ascii_letters + "".join(reversed(ascii_letters))], 156],
+        ],
+    )

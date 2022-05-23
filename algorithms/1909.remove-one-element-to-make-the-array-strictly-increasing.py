@@ -69,6 +69,7 @@ from algo_input import run
 
 
 class Solution:
+
     def canBeIncreasing(self, nums: List[int]) -> bool:
         series = [[nums[0]]]
         for i in range(1, len(nums)):
@@ -85,11 +86,12 @@ class Solution:
 
 
 # @lc code=end
-run(
-    MethodType(Solution.canBeIncreasing, Solution()),
-    [
-        [[[1, 1, 1]], False],
-        [[[2, 3, 1, 2]], False],
-        [[[1, 2, 10, 5, 7]], True],
-    ],
-)
+if __name__ == "__main__":
+    run(
+        MethodType(Solution.canBeIncreasing, Solution()),
+        [
+            [[[1, 1, 1]], False],
+            [[[2, 3, 1, 2]], False],
+            [[[1, 2, 10, 5, 7]], True],
+        ],
+    )

@@ -65,6 +65,7 @@ from algo_input import run
 
 
 class Solution:
+
     def buildArray(self, nums: List[int]) -> List[int]:
         for x in nums:
             yield nums[x]
@@ -72,12 +73,11 @@ class Solution:
 
 # @lc code=end
 
-
-run(
-    MethodType(Solution.buildArray, Solution()),
-    [
-        [[[5, 0, 1, 2, 3, 4]], [4, 5, 0, 1, 2, 3]],
-        [[[0, 2, 1, 5, 3, 4]], [0, 1, 2, 4, 5, 3]],
-    ],
-    unpacker=list,
-)
+if __name__ == "__main__":
+    run(
+        MethodType(Solution.buildArray, Solution()),
+        [
+            [[[5, 0, 1, 2, 3, 4]], [4, 5, 0, 1, 2, 3]],
+            [[[0, 2, 1, 5, 3, 4]], [0, 1, 2, 4, 5, 3]],
+        ],
+    )

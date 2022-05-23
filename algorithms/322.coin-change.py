@@ -56,7 +56,6 @@
 #
 #
 
-
 from functools import cache
 from types import MethodType
 from typing import List
@@ -67,6 +66,7 @@ from algo_input import run
 
 
 class Solution:
+
     def coinChange(self, coins: List[int], amount: int) -> int:
         coins = sorted(filter(None, coins))
 
@@ -84,5 +84,6 @@ class Solution:
 
 # @lc code=end
 
-
-run(MethodType(Solution.coinChange, Solution()), [[[[1, 2, 0, 3, 4], 10], 3]])
+if __name__ == "__main__":
+    run(MethodType(Solution.coinChange, Solution()),
+        [[[[1, 2, 0, 3, 4], 10], 3]])

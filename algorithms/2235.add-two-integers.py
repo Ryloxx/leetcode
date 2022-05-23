@@ -53,13 +53,13 @@ class Solution:
 
 
 # @lc code=end
-
-run(
-    MethodType(Solution.sum, Solution()),
-    [
-        [[-10, 4], -6],
-        [[0, 4], 4],
-        [[10, 4], 14],
-        [[12, 5], 17],
-    ],
-)
+if __name__ == "__main__":
+    run(
+        MethodType(Solution.sum, Solution()),
+        [
+            [[-10, 4], -6],
+            [[0, 4], 4],
+            [[10, 4], 14],
+            [[12, 5], 17],
+        ],
+    )

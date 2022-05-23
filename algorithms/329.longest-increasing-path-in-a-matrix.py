@@ -57,19 +57,17 @@
 #
 #
 
-
 from itertools import product
-import sys
 from types import MethodType
 from typing import List
 
 from algo_input import run
 
-sys.setrecursionlimit(20000)
 # @lc code=start
 
 
 class Solution:
+
     def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
         dp = {}
 
@@ -77,22 +75,16 @@ class Solution:
             if cell in dp:
                 return dp[cell]
             dist_to_end = 0
-            for neigh in [
-                (cell[0] + dy, cell[1] + dx)
-                for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]
-            ]:
-                if (
-                    not (0 <= neigh[0] < len(matrix)
-                         and 0 <= neigh[1] < len(matrix[0]))
-                    or neigh in seen
-                    or matrix[cell[0]][cell[1]]
-                        - matrix[neigh[0]][neigh[1]] >= 0
-                ):
+            for neigh in [(cell[0] + dy, cell[1] + dx)
+                          for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]]:
+                if (not (0 <= neigh[0] < len(matrix)
+                         and 0 <= neigh[1] < len(matrix[0])) or neigh in seen
+                        or matrix[cell[0]][cell[1]] -
+                        matrix[neigh[0]][neigh[1]] >= 0):
                     continue
                 seen.add(neigh)
-                dist_to_end = max(
-                    dfs(start, neigh, current_dist + 1, seen), dist_to_end
-                )
+                dist_to_end = max(dfs(start, neigh, current_dist + 1, seen),
+                                  dist_to_end)
                 seen.discard(neigh)
             dist_to_end += 1
             dp[cell] = dist_to_end
@@ -100,12 +92,10 @@ class Solution:
 
         return max(
             dfs(start, start, 1, {start})
-            for start in product(range(len(matrix)), range(len(matrix[0])))
-        )
+            for start in product(range(len(matrix)), range(len(matrix[0]))))
 
 
 # @lc code=end
-
 
 testCases = [
     [
@@ -137,12 +127,12 @@ testCases = [
     [[[9, 9, 4], [6, 6, 8], [2, 1, 1]], 4],
     [[[3, 4, 5], [3, 2, 6], [2, 2, 1]], 4],
 ]
-run(
-    MethodType(Solution.longestIncreasingPath, Solution()),
-    [
+if __name__ == "__main__":
+    run(
+        MethodType(Solution.longestIncreasingPath, Solution()),
         [
             [
-                [
+                [[
                     [4],
                     [5],
                     [6],
@@ -162,13 +152,12 @@ run(
                     [2],
                     [1],
                     [0],
-                ]
+                ]],
+                9,
             ],
-            9,
+            [[[[7, 7, 5], [2, 4, 6], [8, 2, 0]]], 4],
+            [[[[1]]], 1],
+            [[[[9, 9, 4], [6, 6, 8], [2, 1, 1]]], 4],
+            [[[[3, 4, 5], [3, 2, 6], [2, 2, 1]]], 4],
         ],
-        [[[[7, 7, 5], [2, 4, 6], [8, 2, 0]]], 4],
-        [[[[1]]], 1],
-        [[[[9, 9, 4], [6, 6, 8], [2, 1, 1]]], 4],
-        [[[[3, 4, 5], [3, 2, 6], [2, 2, 1]]], 4],
-    ],
-)
+    )

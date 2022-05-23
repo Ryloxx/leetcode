@@ -94,11 +94,12 @@ class Solution:
 
 
 # @lc code=end
-run(
-    MethodType(Solution.finalValueAfterOperations, Solution()),
-    [
-        [[["X++", "++X", "--X", "X--"]], 0],
-        [[["++X", "++X", "X++"]], 3],
-        [[["--X", "X++", "X++"]], 1],
-    ],
-)
+if __name__ == "__main__":
+    run(
+        MethodType(Solution.finalValueAfterOperations, Solution()),
+        [
+            [[["X++", "++X", "--X", "X--"]], 0],
+            [[["++X", "++X", "X++"]], 3],
+            [[["--X", "X++", "X++"]], 1],
+        ],
+    )

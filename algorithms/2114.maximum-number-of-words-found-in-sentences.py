@@ -72,28 +72,25 @@ from algo_input import run
 
 
 class Solution:
+
     def mostWordsFound(self, sentences: List[str]) -> int:
         return max(map(len, map(str.split, sentences)))
 
 
 # @lc code=end
 
-
-run(
-    MethodType(Solution.mostWordsFound, Solution()),
-    [
-        [[["please wait",
-           "continue to fight",
-           "continue to win"]], 3],
+if __name__ == "__main__":
+    run(
+        MethodType(Solution.mostWordsFound, Solution()),
         [
+            [[["please wait", "continue to fight", "continue to win"]], 3],
             [
-                [
+                [[
                     "alice and bob love leetcode",
                     "i think so too",
                     "this is great thanks very much",
-                ]
+                ]],
+                6,
             ],
-            6,
         ],
-    ],
-)
+    )

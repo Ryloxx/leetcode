@@ -87,7 +87,8 @@ class Solution:
 
 
 # @lc code=end
-algo_input.run(
-    MethodType(Solution.uniquePathsWithObstacles, Solution()),
-    [[[[[0, 0, 0], [0, 1, 0], [0, 0, 0]]], 2], [[[[0, 1], [0, 0]]], 1]],
-)
+if __name__ == "__main__":
+    algo_input.run(
+        MethodType(Solution.uniquePathsWithObstacles, Solution()),
+        [[[[[0, 0, 0], [0, 1, 0], [0, 0, 0]]], 2], [[[[0, 1], [0, 0]]], 1]],
+    )

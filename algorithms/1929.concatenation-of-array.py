@@ -67,11 +67,11 @@ class Solution:
 
 # @lc code=end
 
-
-run(
-    MethodType(Solution.getConcatenation, Solution()),
-    [
-        [[[1, 3, 2, 1]], [1, 3, 2, 1, 1, 3, 2, 1]],
-        [[[1, 2, 1]], [1, 2, 1, 1, 2, 1]],
-    ],
-)
+if __name__ == "__main__":
+    run(
+        MethodType(Solution.getConcatenation, Solution()),
+        [
+            [[[1, 3, 2, 1]], [1, 3, 2, 1, 1, 3, 2, 1]],
+            [[[1, 2, 1]], [1, 2, 1, 1, 2, 1]],
+        ],
+    )
