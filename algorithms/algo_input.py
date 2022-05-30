@@ -5,7 +5,6 @@ import sys
 from sys import setrecursionlimit
 from timeit import default_timer
 from traceback import format_tb
-from types import GeneratorType
 from typing import Any, Callable, List, Tuple
 
 LEETCODE_MAX_RECURSION_DEPTH = 20_000
@@ -54,8 +53,11 @@ def getLastError():
 
 
 def parseResult(res):
-    if isinstance(res, GeneratorType):
+    try:
+        res.__next__
         res = list(res)
+    except AttributeError:
+        pass
     if isinstance(res, list):
         res = list(map(parseResult, res))
     return res
@@ -129,16 +131,22 @@ def in_env(fnc: Callable):
     return execute
 
 
-def run(fnc: Callable, testCases: List[Tuple[List[Any], Any]]):
+def run(fnc: Callable,
+        testCases: List[Tuple[List[Any], Any]],
+        comparator=lambda x, y: x == y):
     wrapped_fnc = in_env(fnc)
     for no, test in enumerate(testCases):
         inputs, expected = test
         execution_info = wrapped_fnc(*inputs)
         execution_info["Expected"] = expected
         result = "\u001B[32mPass\u001B[0m" if \
-            execution_info["Result"] == expected\
+            comparator(execution_info["Result"], expected)\
             and execution_info["Execution Error"] is None \
             else "\u001B[31mFail\u001B[0m"
         print(f"Test nº \u001B[34m{no}\u001B[0m - {result} - {execution_info}")
     else:
         print("Done")
+
+
+def any_order(a, b):
+    return sorted(a) == sorted(b)
