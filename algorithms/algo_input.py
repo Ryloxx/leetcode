@@ -3,16 +3,17 @@ import os
 from queue import Empty
 import sys
 from sys import setrecursionlimit
+import textwrap
 from timeit import default_timer
 from traceback import format_tb
 from typing import Any, Callable, List, Tuple
 
+IS_DEBUG = "DEBUG" in os.environ \
+        and os.environ["DEBUG"].lower() == "true"
+
 LEETCODE_MAX_RECURSION_DEPTH = 20_000
 LEETCODE_MAX_MEMORY = 100 * 1024 * 1024  # 100 MB
-LEETCODE_MAX_TIMEOUT_MS = 1000 * 60 * 60 \
-        if "DEBUG" in os.environ \
-        and os.environ["DEBUG"].lower() == "true"\
-        else 3000  # 3000 ms
+LEETCODE_MAX_TIMEOUT_MS = 1000 * 60 * 60 if IS_DEBUG else 3000  # 3000 ms
 
 
 def disableStd():
@@ -31,7 +32,7 @@ def limitMemory(memoryLimit: int):
     if sys.platform != "win32":
         import resource
         resource.setrlimit(resource.RLIMIT_AS,
-                           (LEETCODE_MAX_MEMORY, resource.RLIM_INFINITY))
+                           (memoryLimit, resource.RLIM_INFINITY))
     else:
         import win32api
         import win32job
@@ -131,6 +132,13 @@ def in_env(fnc: Callable):
     return execute
 
 
+MAX_PRINT_WIDTH_RESULT = sys.maxsize if IS_DEBUG else 200
+
+
+def truncate(obj: Any, width: int):
+    return textwrap.shorten(str(obj), width=width, placeholder="...")
+
+
 def run(fnc: Callable,
         testCases: List[Tuple[List[Any], Any]],
         comparator=lambda x, y: x == y):
@@ -143,7 +151,15 @@ def run(fnc: Callable,
             comparator(execution_info["Result"], expected)\
             and execution_info["Execution Error"] is None \
             else "\u001B[31mFail\u001B[0m"
-        print(f"Test nº \u001B[34m{no}\u001B[0m - {result} - {execution_info}")
+        execution_info["Expected"] = truncate(str(execution_info["Expected"]),
+                                              MAX_PRINT_WIDTH_RESULT)
+        execution_info["Result"] = truncate(
+            str(execution_info["Result"]),
+            MAX_PRINT_WIDTH_RESULT,
+        )
+        print(f"Test nº \u001B[34m{no}\u001B[0m"
+              f"- {result}"
+              f"- {execution_info}")
     else:
         print("Done")
 
