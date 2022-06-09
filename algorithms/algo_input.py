@@ -165,4 +165,4 @@ def run(fnc: Callable,
 
 
 def any_order(a, b):
-    return sorted(a) == sorted(b)
+    return a and b and sorted(a) == sorted(b)
