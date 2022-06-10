@@ -158,8 +158,8 @@ def run(fnc: Callable,
             MAX_PRINT_WIDTH_RESULT,
         )
         print(f"Test nº \u001B[34m{no}\u001B[0m"
-              f"- {result}"
-              f"- {execution_info}")
+              f" - {result}"
+              f" - {execution_info}")
     else:
         print("Done")
 
