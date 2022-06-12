@@ -64,10 +64,10 @@ class Solution:
         while right < len(nums):
             while memo[nums[right]]:
                 current_sum -= nums[left]
-                memo[nums[left]] -= 1
+                memo[nums[left]] = 0
                 left += 1
             current_sum += nums[right]
-            memo[nums[right]] += 1
+            memo[nums[right]] = 1
             res = max(res, current_sum)
             right += 1
         return res
