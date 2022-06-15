@@ -66,7 +66,7 @@ class Solution:
                 top_left = dp[j]
                 dp[j] = temp
                 left = temp
-        return lw1 + lw2 - 2 * dp[lw2 - 1] - 2
+        return lw1 + lw2 - 2 * dp[-1] - 2
 
 
 # @lc code=end
