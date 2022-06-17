@@ -1,3 +1,4 @@
+from itertools import chain
 from multiprocessing import Process, Queue
 import os
 from queue import Empty
@@ -19,8 +20,9 @@ LEETCODE_MAX_TIMEOUT_MS = 1000 * 60 * 60 if IS_DEBUG else 3000  # 3000 ms
 def disableStd():
     null = open(os.devnull)
     temp = sys.stderr, sys.stdout
-    sys.stderr = null
-    sys.stdout = null
+    if not IS_DEBUG:
+        sys.stderr = null
+        sys.stdout = null
 
     def enableStd():
         sys.stderr, sys.stdout = temp
@@ -164,5 +166,65 @@ def run(fnc: Callable,
         print("Done")
 
 
+""" HELPERS """
+
+
 def any_order(a, b):
     return a and b and sorted(a) == sorted(b)
+
+
+def _print_formated_tree(tree: List[List[Any]], emptyChar: str):
+    max_value_length = max(
+        3, len(max((max(map(str, level), key=len) for level in tree),
+                   key=len)))
+    max_value_length = max_value_length + (max_value_length + 1) % 2
+    total_width = len(tree[-1]) * max_value_length
+    print('\n'.join("".join(
+        map(
+            lambda value: str(value if value is not None else emptyChar).
+            center(max_value_length).center(total_width >> level),
+            tree[level])) for level in range(len(tree))))
+
+
+class TreeNode:
+
+    @staticmethod
+    def createTree(nums: List[int | None]):
+        if not nums:
+            return None
+        root = TreeNode(nums[0])
+        current = [root]
+        i = 1
+        while i < len(nums) and current:
+            temp = []
+            for j in current:
+                if j:
+                    left = TreeNode(
+                        nums[i]
+                    ) if i < len(nums) and nums[i] is not None else None
+                    i += 1
+                    right = TreeNode(
+                        nums[i]
+                    ) if i < len(nums) and nums[i] is not None else None
+                    i += 1
+                    j.left, j.right = left, right
+                    temp += [left, right]
+            current = temp
+        return root
+
+    @staticmethod
+    def print_tree(root: "TreeNode", emptyChar="x"):
+        current, tree = [root], []
+        while current.count(None) != len(current):
+            tree.append(current)
+            current = list(
+                chain.from_iterable([i.left, i.right] if i else [None, None]
+                                    for i in current))
+        _print_formated_tree([
+            list(map(lambda x: x.val if x else None, level)) for level in tree
+        ], emptyChar)
+
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
