@@ -1,4 +1,4 @@
 ---
 "*.py":
-  - python -m yapf --no-local-style --style "pep8"
+  - python -m yapf -i --no-local-style --style "pep8"
   - python -m flake8
