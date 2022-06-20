@@ -70,11 +70,13 @@ class Solution:
     # MAX_WORD_LENGTH_KEY = "word_max_length"
     # N = len(words), M = len(max(words[i]))
     # O(N * M) time complexity
-    # O(N * M**2) space complexity
+    # O(N) space complexity
     def minimumLengthEncoding(self, words: List[str]) -> int:
-        words = set(words)
-        trie = set(w[x:] for w in words for x in range(1, len(w)))
-        return sum(len(w) + 1 for w in words if w not in trie)
+        words_s = set(words)
+        for w in words:
+            for x in range(1, len(w)):
+                words_s.discard(w[x:])
+        return sum(len(w) for w in words_s) + len(words_s)
 
     # O(N * M) time complexity
     # O(N * M) space complexity
