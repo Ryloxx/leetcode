@@ -67,33 +67,39 @@ from types import MethodType
 
 # @lc code=start
 class Solution:
-    MAX_WORD_LENGTH_KEY = "word_max_length"
-
-    # O(N) time complexity
-    # O(N) space complexity
+    # MAX_WORD_LENGTH_KEY = "word_max_length"
+    # N = len(words), M = len(max(words[i]))
+    # O(N * M) time complexity
+    # O(N * M**2) space complexity
     def minimumLengthEncoding(self, words: List[str]) -> int:
-        trie = {}
-        for w in words:
-            temp = trie
-            for c in reversed(w):
-                temp = temp.setdefault(c, {})
-            temp[Solution.MAX_WORD_LENGTH_KEY] = len(w) + 1
+        words = set(words)
+        trie = set(w[x:] for w in words for x in range(1, len(w)))
+        return sum(len(w) + 1 for w in words if w not in trie)
 
-        def dfs(current):
-            if len(current) == 1 and Solution.MAX_WORD_LENGTH_KEY in current:
-                return current[Solution.MAX_WORD_LENGTH_KEY]
-            return sum(
-                dfs(value) for key, value in current.items()
-                if key != Solution.MAX_WORD_LENGTH_KEY)
+    # O(N * M) time complexity
+    # O(N * M) space complexity
+    # def minimumLengthEncoding(self, words: List[str]) -> int:
+    #     trie = {}
+    #     for w in words:
+    #         temp = trie
+    #         for c in reversed(w):
+    #             temp = temp.setdefault(c, {})
+    #         temp[Solution.MAX_WORD_LENGTH_KEY] = len(w) + 1
+    #
+    #     def dfs(current):
+    #         if len(current) == 1 and Solution.MAX_WORD_LENGTH_KEY in current:
+    #             return current[Solution.MAX_WORD_LENGTH_KEY]
+    #         return sum(
+    #             dfs(value) for key, value in current.items()
+    #             if key != Solution.MAX_WORD_LENGTH_KEY)
+    #
+    #     return dfs(trie)
 
-        return dfs(trie)
-
-    # O(NlogN) time complexity
-    # O(N) space complexity
+    # O(NlogN + N * M) time complexity
+    # O(N * M**2) space complexity
     # def minimumLengthEncoding(self, words: List[str]) -> int:
     #     words.sort(key=len, reverse=True)
-    #     trie = set()
-    #     res = 0
+    #     trie, res= set(), 0
     #     for w in words:
     #         if w in trie:
     #             continue
@@ -107,6 +113,7 @@ if __name__ == "__main__":
     run(
         MethodType(Solution.minimumLengthEncoding, Solution()),
         [
+            [[["time", "time", "time", "time"]], 5],
             [[["time", "me", "bell"]], 10],
             [[["time", "me", "ti"]], 8],
             [[["me", "time"]], 5],
