@@ -228,3 +228,33 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+
+
+class ListNode:
+
+    @staticmethod
+    def createList(nums: List[int | None]):
+        root = ListNode()
+        current = root
+        for i in nums:
+            current.next = current = ListNode(i)
+        return root.next
+
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+    def __eq__(self, __o: object) -> bool:
+        i, j = self, __o
+        while i is not None and j is not None and i.val == j.val:
+            i = i.next
+            j = j.next
+        return i is None and j is None
+
+    def __str__(self) -> str:
+        res = []
+        i = self
+        while i:
+            res.append(i.val)
+            i = i.next
+        return str(res)
