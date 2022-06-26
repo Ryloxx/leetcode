@@ -73,6 +73,20 @@ from types import MethodType
 class Solution:
 
     def maxScore(self, cardPoints: List[int], k: int) -> int:
+        return [self.maxScoreN,
+                self.maxScoreK][k >> 1 < len(cardPoints)](cardPoints, k)
+
+    # O(K) time complexity
+    def maxScoreK(self, cardPoints: List[int], k: int) -> int:
+        curr = res = 0
+        for i in range(-k, k):
+            curr += cardPoints[i]
+            i >= 0 and (curr := curr - cardPoints[i - k])
+            res = max(res, curr)
+        return res
+
+    # O(N) time complexity
+    def maxScoreN(self, cardPoints: List[int], k: int) -> int:
         res, p, curr = float('inf'), len(cardPoints) - k, 0
         cardPoints.append(0)
         for i in range(len(cardPoints) - 1):
