@@ -7,7 +7,7 @@ from sys import setrecursionlimit
 import textwrap
 from timeit import default_timer
 from traceback import format_tb
-from typing import Any, Callable, List, Tuple
+from typing import Any, Callable, List, Optional, Tuple
 
 IS_DEBUG = "DEBUG" in os.environ \
         and os.environ["DEBUG"].lower() == "true"
@@ -173,17 +173,17 @@ def any_order(a, b):
     return a and b and sorted(a) == sorted(b)
 
 
-def _print_formated_tree(tree: List[List[Any]], emptyChar: str):
+def _formated_tree(tree: List[List[Any]], emptyChar: str):
     max_value_length = max(
         3, len(max((max(map(str, level), key=len) for level in tree),
                    key=len)))
     max_value_length = max_value_length + (max_value_length + 1) % 2
     total_width = len(tree[-1]) * max_value_length
-    print('\n'.join("".join(
+    return '\n'.join("".join(
         map(
             lambda value: str(value if value is not None else emptyChar).
             center(max_value_length).center(total_width >> level),
-            tree[level])) for level in range(len(tree))))
+            tree[level])) for level in range(len(tree)))
 
 
 class TreeNode:
@@ -213,14 +213,14 @@ class TreeNode:
         return root
 
     @staticmethod
-    def print_tree(root: "TreeNode", emptyChar="x"):
+    def _tree(root: "TreeNode", emptyChar="x"):
         current, tree = [root], []
         while current.count(None) != len(current):
             tree.append(current)
             current = list(
                 chain.from_iterable([i.left, i.right] if i else [None, None]
                                     for i in current))
-        _print_formated_tree([
+        return _formated_tree([
             list(map(lambda x: x.val if x else None, level)) for level in tree
         ], emptyChar)
 
@@ -228,6 +228,32 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+
+    def __eq__(self, __o: object) -> bool:
+        i, j = self, __o
+
+        def nodes(root: Optional["TreeNode"]) -> List[int]:
+            if not root:
+                return []
+            traversal, left, empty_count = [root], 0, 0
+            while left + empty_count < len(traversal):
+                empty_count = 0
+                for idx in range(left, len(traversal)):
+                    node = traversal[idx]
+                    if not node:
+                        traversal.append(None)
+                        traversal.append(None)
+                        empty_count += 2
+                    else:
+                        traversal.append(node.left)
+                        traversal.append(node.right)
+                    yield node.val if node else None
+                    left += 1
+
+        return list(nodes(j)) == list(nodes(i))
+
+    def __str__(self) -> str:
+        return TreeNode._tree(self)
 
 
 class ListNode:
