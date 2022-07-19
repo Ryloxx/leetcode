@@ -20,8 +20,8 @@ jobs:
           architecture: 'x64'
       - name: Derive appropriate SHAs for base and head
         uses: nrwl/nx-set-shas@v2
+        id: shas
         with:
           main-branch-name: master
-          id: shas
       - name: Execute Python algorithms
         run: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E ^[^DU].+\.py$ | sed "s/^.\s*//g" | xargs -t -i python {}

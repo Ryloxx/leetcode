@@ -5,6 +5,7 @@
 #
 # https://leetcode.com/problems/n-queens/description/
 #
+#
 # algorithms
 # Hard (57.69%)
 # Likes:    6488
