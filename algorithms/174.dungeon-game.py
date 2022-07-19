@@ -101,7 +101,7 @@ class Solution:
     #             return 1 - dungeon[-1][-1]
     #         if y >= m or x >= n:
     #             return float("inf")
-    #         return min(dp(y + 1, x), dp(y, x + 1)) - dungeon[y][x]
+    #         return max(1, min(dp(y + 1, x), dp(y, x + 1)) - dungeon[y][x])
 
     #     return dp(0, 0)
 
