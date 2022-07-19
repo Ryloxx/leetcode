@@ -11,6 +11,8 @@ from typing import Any, Callable, List, Optional, Tuple
 
 IS_DEBUG = "DEBUG" in os.environ \
         and os.environ["DEBUG"].lower() == "true"
+CI = "CI" in os.environ \
+    and os.environ["CI"] == "true"
 
 LEETCODE_MAX_RECURSION_DEPTH = 20_000
 LEETCODE_MAX_MEMORY = 100 * 1024 * 1024  # 100 MB
@@ -160,11 +162,12 @@ def run(fnc: Callable,
             str(execution_info["Result"]),
             MAX_PRINT_WIDTH_RESULT,
         )
-        print(
-            f"Test nº \u001B[34m{no}\u001B[0m"
-            f" - {result}"
-            f" - {execution_info}",
-            file=sys.stdout if success else sys.stderr)
+        print(f"Test nº \u001B[34m{no}\u001B[0m"
+              f" - {result}"
+              f" - {execution_info}")
+        if CI and not success:
+            print('Exiting on fail because CI detected', file=sys.stderr)
+            exit(1)
     else:
         print("Done")
 
