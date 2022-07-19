@@ -24,4 +24,4 @@ jobs:
           main-branch-name: master
           id: shas
       - name: Execute Python algorithms
-        run: git diff --name-only {{ steps.shas.outputs.head }} {{ steps.shas.outputs.base }} | grep -E ".+\.py$" | xargs -i python {}
+        run: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E ^[^DU].+\.py$ | sed "s/^.\s*//g" | xargs -t -i python {}
