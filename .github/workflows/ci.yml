@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+
+jobs:
+  test:
+    name: TEST
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
+          architecture: 'x64'
+      - name: Derive appropriate SHAs for base and head
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: master
+          id: shas
+      - name: Execute algorithms on changed files
+      - name: Python
+        run: git diff --name-only {{ steps.shas.outputs.head }} {{ steps.shas.outputs.base }} | grep -E ".+\.py$" | xargs -i python {}
