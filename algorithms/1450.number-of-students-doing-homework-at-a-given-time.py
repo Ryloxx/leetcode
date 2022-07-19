@@ -77,6 +77,6 @@ if __name__ == "__main__":
         MethodType(Solution.busyStudent, Solution()),
         [
             [[[1, 2, 3], [3, 2, 7], 4], 1],
-            [[[4], [4], 4], 4],
+            [[[4], [4], 4], 1],
         ],
     )

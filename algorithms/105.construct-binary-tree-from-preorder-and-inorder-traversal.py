@@ -80,11 +80,9 @@ class Solution:
 
 # @lc code=end
 if __name__ == "__main__":
-    run(
-        MethodType(Solution.buildTree, Solution()),
-        [
-            [[[3, 9, 20, 15, 7], [9, 3, 15, 20, 7]],
-             TreeNode.createTree([3, 9, 20, None, None, 15, 7])],
-            [[[-1], [-1]], TreeNode.createTree([-1])],
-        ],
-    )
+    run(MethodType(Solution.buildTree, Solution()), [
+        [[[3, 9, 20, 15, 7], [9, 3, 15, 20, 7]],
+         TreeNode.createTree([3, 9, 20, None, None, 15, 7])],
+        [[[-1], [-1]], TreeNode.createTree([-1])],
+    ],
+        comparator=lambda a, b: TreeNode.are_equal(a, b))

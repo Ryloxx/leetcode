@@ -92,19 +92,17 @@ class Solution:
 
 # @lc code=end
 if __name__ == "__main__":
-    run(
-        MethodType(Solution.addTwoNumbers, Solution()),
-        [
-            [[ListNode.createList([2, 4, 3]),
-              ListNode.createList([5, 6, 4])],
-             ListNode.createList([7, 0, 8])],
-            [[ListNode.createList([0]),
-              ListNode.createList([0])],
-             ListNode.createList([0])],
-            [[
-                ListNode.createList([9, 9, 9, 9, 9, 9, 9]),
-                ListNode.createList([9, 9, 9, 9])
-            ],
-             ListNode.createList([8, 9, 9, 9, 0, 0, 0, 1])],
+    run(MethodType(Solution.addTwoNumbers, Solution()), [
+        [[ListNode.createList([2, 4, 3]),
+          ListNode.createList([5, 6, 4])],
+         ListNode.createList([7, 0, 8])],
+        [[ListNode.createList([0]),
+          ListNode.createList([0])],
+         ListNode.createList([0])],
+        [[
+            ListNode.createList([9, 9, 9, 9, 9, 9, 9]),
+            ListNode.createList([9, 9, 9, 9])
         ],
-    )
+         ListNode.createList([8, 9, 9, 9, 0, 0, 0, 1])],
+    ],
+        comparator=lambda a, b: ListNode.are_equal(a, b))
