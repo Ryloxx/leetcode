@@ -149,9 +149,10 @@ def run(fnc: Callable,
         inputs, expected = test
         execution_info = wrapped_fnc(*inputs)
         execution_info["Expected"] = expected
-        result = "\u001B[32mPass\u001B[0m" if \
-            comparator(execution_info["Result"], expected)\
-            and execution_info["Execution Error"] is None \
+        success = comparator(
+            execution_info["Result"],
+            expected) and execution_info["Execution Error"] is None
+        result = "\u001B[32mPass\u001B[0m" if success\
             else "\u001B[31mFail\u001B[0m"
         execution_info["Expected"] = truncate(str(execution_info["Expected"]),
                                               MAX_PRINT_WIDTH_RESULT)
@@ -159,9 +160,11 @@ def run(fnc: Callable,
             str(execution_info["Result"]),
             MAX_PRINT_WIDTH_RESULT,
         )
-        print(f"Test nº \u001B[34m{no}\u001B[0m"
-              f" - {result}"
-              f" - {execution_info}")
+        print(
+            f"Test nº \u001B[34m{no}\u001B[0m"
+            f" - {result}"
+            f" - {execution_info}",
+            file=sys.stdout if success else sys.stderr)
     else:
         print("Done")
 
@@ -224,13 +227,9 @@ class TreeNode:
             list(map(lambda x: x.val if x else None, level)) for level in tree
         ], emptyChar)
 
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-    def __eq__(self, __o: object) -> bool:
-        i, j = self, __o
+    @staticmethod
+    def are_equal(tree_1, tree_2: object) -> bool:
+        i, j = tree_1, tree_2
 
         def nodes(root: Optional["TreeNode"]) -> List[int]:
             if not root:
@@ -252,6 +251,11 @@ class TreeNode:
 
         return list(nodes(j)) == list(nodes(i))
 
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
     def __str__(self) -> str:
         return TreeNode._tree(self)
 
@@ -266,16 +270,17 @@ class ListNode:
             current.next = current = ListNode(i)
         return root.next
 
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-
-    def __eq__(self, __o: object) -> bool:
-        i, j = self, __o
+    @staticmethod
+    def are_equal(list_1, list_2: object) -> bool:
+        i, j = list_1, list_2
         while i is not None and j is not None and i.val == j.val:
             i = i.next
             j = j.next
         return i is None and j is None
+
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
     def __str__(self) -> str:
         res = []
