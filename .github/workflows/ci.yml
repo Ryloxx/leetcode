@@ -23,6 +23,5 @@ jobs:
         with:
           main-branch-name: master
           id: shas
-      - name: Execute algorithms on changed files
-      - name: Python
+      - name: Execute Python algorithms
         run: git diff --name-only {{ steps.shas.outputs.head }} {{ steps.shas.outputs.base }} | grep -E ".+\.py$" | xargs -i python {}
