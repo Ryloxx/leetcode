@@ -88,7 +88,7 @@ class Solution:
 
     # Recursive
     # O(N) time complexity
-    # O(logN) space complexity
+    # O(N) space complexity
     # def flatten(self, root: Optional[TreeNode]) -> None:
     #     """
     #     Do not return anything, modify root in-place instead.
