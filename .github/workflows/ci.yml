@@ -18,6 +18,8 @@ jobs:
         with:
           python-version: '3.10' 
           architecture: 'x64'
+          cache: 'pip'
+        run: pip install -r requirements.txt
       - name: Derive appropriate SHAs for base and head
         uses: nrwl/nx-set-shas@v2
         id: shas

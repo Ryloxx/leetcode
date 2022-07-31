@@ -1,7 +1,8 @@
 from itertools import chain
-from multiprocessing import Process, Queue
+from operator import itemgetter
+from func_timeout import FunctionTimedOut, func_timeout
+from pathos.multiprocessing import ProcessingPool as Pool
 import os
-from queue import Empty
 import sys
 from sys import setrecursionlimit
 import textwrap
@@ -17,6 +18,7 @@ CI = "CI" in os.environ \
 LEETCODE_MAX_RECURSION_DEPTH = 20_000
 LEETCODE_MAX_MEMORY = 100 * 1024 * 1024  # 100 MB
 LEETCODE_MAX_TIMEOUT_MS = 1000 * 60 * 60 if IS_DEBUG else 3000  # 3000 ms
+MAX_PRINT_WIDTH_RESULT = sys.maxsize if IS_DEBUG else 200
 
 
 def disableStd():
@@ -68,75 +70,63 @@ def parseResult(res):
     return res
 
 
-def sub_f(q, fnc, *args, **kwargs):
+def sub_f(args):
+    fnc, *args = args
     limitMemory(LEETCODE_MAX_MEMORY)
     setrecursionlimit(LEETCODE_MAX_RECURSION_DEPTH)
-    disableStd()
     try:
         start = default_timer()
-        res = fnc(*args, **kwargs)
+        res = func_timeout(LEETCODE_MAX_TIMEOUT_MS / 1000, fnc, args)
         end = default_timer()
-        q.put(((parseResult(res), end - start), None))
-    except MemoryError:
-        sys.exit(3)
+        return ((parseResult(res), end - start), None)
+    except FunctionTimedOut as x:
+        return ((None, -1), (type(x), x, ''))
     except Exception:
         error = getLastError()
-        q.put((None, error))
+        return ((None, -1), error)
 
 
-def run_in_sub(fnc, *args, **kwargs):
-    q = Queue()
-    p = Process(target=sub_f, args=(q, fnc, *args), kwargs=kwargs)
-    ret = None
-    error = None
-    p.start()
-    enable = disableStd()
-    try:
-        ret, error = q.get(timeout=LEETCODE_MAX_TIMEOUT_MS * 2 / 1000)
-    except Empty:
-        code = p.exitcode
-        if code in [1, 3, 0xC0000409, 0xC00000FD]:
-            raise MemoryError()
-        raise TimeoutError()
-    finally:
-        enable()
-        if (p.is_alive()):
-            p.terminate()
-    p.join(1)
-    if error:
-        raise Exception(error)
-    if ret[1] >= LEETCODE_MAX_TIMEOUT_MS:
-        raise TimeoutError()
-    return ret
+def run_in_sub(fnc: Callable, args: List[List[Any]]):
+    pool = Pool(1 if IS_DEBUG else None)
+    ret_list = pool.map(sub_f, [(fnc, *x) for x in args])
+    pool.close()
+    return ret_list
 
 
-def in_env(fnc: Callable):
+def in_env(fnc: Callable, args):
 
-    def execute(*args, **kwargs):
+    results = run_in_sub(fnc, args)
+
+    def parse(run_result):
         executionInfo = {
             "Time": "-",
             "Execution Error": None,
             "Result": None,
             "Expected": None
         }
-        res, runtime = None, -1
-        try:
-            res, runtime = run_in_sub(fnc, *args, **kwargs)
-        except TimeoutError:
-            executionInfo["Execution Error"] = "Time Limit Exceeded"
-        except MemoryError:
-            executionInfo["Execution Error"] = "Memory Limit Exceeded"
-        except Exception as x:
-            executionInfo["Execution Error"] = x.args[0][1]
+        (res, runtime), error = run_result
+        if error:
+            if error[0] == FunctionTimedOut:
+                executionInfo["Execution Error"] = "Time Limit Exceeded"
+            elif error[0] == MemoryError:
+                executionInfo["Execution Error"] = "Memory Limit Exceeded"
+            else:
+                executionInfo["Execution Error"] = error[1]
         executionInfo["Time"] = "%.2f ms" % (runtime *
                                              1000) if runtime >= 0 else "N/A"
         executionInfo["Result"] = res
         return executionInfo
 
-    return execute
+    return list(map(parse, results))
 
 
-MAX_PRINT_WIDTH_RESULT = sys.maxsize if IS_DEBUG else 200
+def wrapp_class(Class_type: Callable):
+
+    def process(class_args: List[Any], steps: List[Tuple[str, List[Any]]]):
+        obj = Class_type(*class_args)
+        return list(map(lambda step: getattr(obj, step[0])(*step[1]), steps))
+
+    return process
 
 
 def truncate(obj: Any, width: int):
@@ -146,10 +136,9 @@ def truncate(obj: Any, width: int):
 def run(fnc: Callable,
         testCases: List[Tuple[List[Any], Any]],
         comparator=lambda x, y: x == y):
-    wrapped_fnc = in_env(fnc)
-    for no, test in enumerate(testCases):
-        inputs, expected = test
-        execution_info = wrapped_fnc(*inputs)
+    execution_infos = in_env(fnc, map(itemgetter(0), testCases))
+    for no, (execution_info, expected) in enumerate(
+            zip(execution_infos, map(itemgetter(1), testCases))):
         execution_info["Expected"] = expected
         success = comparator(
             execution_info["Result"],
