@@ -69,8 +69,7 @@
 #
 #
 #
-from typing import Any, List, Tuple
-from algo_input import run
+from algo_input import run, wrapp_class
 
 # @lc code=start
 
@@ -172,45 +171,39 @@ class AllOne:
 # param_4 = obj.getMinKey()
 # @lc code=end
 
-obj = AllOne()
-
-
-def process(steps: List[Tuple[str, List[Any]]]):
-    return list(map(lambda step: getattr(obj, step[0])(*step[1]), steps))
-
-
 if __name__ == "__main__":
     run(
-        process,
+        wrapp_class(AllOne),
         [
-            [[[
-                ["getMinKey", []],
-                ["getMaxKey", []],
-                ["inc", ["hello"]],
-                ["getMinKey", []],
-                ["getMaxKey", []],
-                ["dec", ["hello"]],
-                ["getMinKey", []],
-                ["getMaxKey", []],
-                ["inc", ["goodbye"]],
-                ["inc", ["goodbye"]],
-                ["inc", ["goodbye"]],
-                ["inc", ["hello"]],
-                ["inc", ["hello"]],
-                ["getMinKey", []],
-                ["getMaxKey", []],
-                ["dec", ["goodbye"]],
-                ["dec", ["goodbye"]],
-                ["getMinKey", []],
-                ["getMaxKey", []],
-                ["dec", ["goodbye"]],
-                ["getMinKey", []],
-                ["getMaxKey", []],
-                ["dec", ["hello"]],
-                ["dec", ["hello"]],
-                ["getMinKey", []],
-                ["getMaxKey", []],
-            ]],
+            [[[],
+              [
+                  ["getMinKey", []],
+                  ["getMaxKey", []],
+                  ["inc", ["hello"]],
+                  ["getMinKey", []],
+                  ["getMaxKey", []],
+                  ["dec", ["hello"]],
+                  ["getMinKey", []],
+                  ["getMaxKey", []],
+                  ["inc", ["goodbye"]],
+                  ["inc", ["goodbye"]],
+                  ["inc", ["goodbye"]],
+                  ["inc", ["hello"]],
+                  ["inc", ["hello"]],
+                  ["getMinKey", []],
+                  ["getMaxKey", []],
+                  ["dec", ["goodbye"]],
+                  ["dec", ["goodbye"]],
+                  ["getMinKey", []],
+                  ["getMaxKey", []],
+                  ["dec", ["goodbye"]],
+                  ["getMinKey", []],
+                  ["getMaxKey", []],
+                  ["dec", ["hello"]],
+                  ["dec", ["hello"]],
+                  ["getMinKey", []],
+                  ["getMaxKey", []],
+              ]],
              [
                  "", "", None, "hello", "hello", None, "", "", None, None,
                  None, None, None, "hello", "goodbye", None, None, "goodbye",
