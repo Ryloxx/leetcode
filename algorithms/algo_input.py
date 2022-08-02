@@ -16,8 +16,9 @@ CI = "CI" in os.environ \
     and os.environ["CI"] == "true"
 
 LEETCODE_MAX_RECURSION_DEPTH = 20_000
-LEETCODE_MAX_MEMORY = 100 * 1024 * 1024  # 100 MB
+LEETCODE_MAX_MEMORY = 300 * 1024 * 1024  # 100 MB
 LEETCODE_MAX_TIMEOUT_MS = 1000 * 60 * 60 if IS_DEBUG else 3000  # 3000 ms
+BATCH_SIZE = 10
 MAX_PRINT_WIDTH_RESULT = sys.maxsize if IS_DEBUG else 200
 
 
@@ -76,7 +77,7 @@ def sub_f(args):
     setrecursionlimit(LEETCODE_MAX_RECURSION_DEPTH)
     try:
         start = default_timer()
-        res = func_timeout(LEETCODE_MAX_TIMEOUT_MS / 1000, fnc, args)
+        res = func_timeout(LEETCODE_MAX_TIMEOUT_MS / 800, fnc, args)
         end = default_timer()
         return ((parseResult(res), end - start), None)
     except FunctionTimedOut as x:
@@ -88,6 +89,7 @@ def sub_f(args):
 
 def run_in_sub(fnc: Callable, args: List[List[Any]]):
     pool = Pool(1 if IS_DEBUG else None)
+    pool.restart()
     ret_list = pool.map(sub_f, [(fnc, *x) for x in args])
     pool.close()
     return ret_list
@@ -95,7 +97,12 @@ def run_in_sub(fnc: Callable, args: List[List[Any]]):
 
 def in_env(fnc: Callable, args):
 
-    results = run_in_sub(fnc, args)
+    results = []
+    for _ in [
+            args[idx:idx + BATCH_SIZE]
+            for idx in range(0, len(args), BATCH_SIZE)
+    ]:
+        results.extend(run_in_sub(fnc, _))
 
     def parse(run_result):
         executionInfo = {
@@ -112,6 +119,8 @@ def in_env(fnc: Callable, args):
                 executionInfo["Execution Error"] = "Memory Limit Exceeded"
             else:
                 executionInfo["Execution Error"] = error[1]
+        if runtime and runtime * 1000 > LEETCODE_MAX_TIMEOUT_MS:
+            executionInfo["Execution Error"] = "Time Limit Exceeded"
         executionInfo["Time"] = "%.2f ms" % (runtime *
                                              1000) if runtime >= 0 else "N/A"
         executionInfo["Result"] = res
@@ -136,7 +145,7 @@ def truncate(obj: Any, width: int):
 def run(fnc: Callable,
         testCases: List[Tuple[List[Any], Any]],
         comparator=lambda x, y: x == y):
-    execution_infos = in_env(fnc, map(itemgetter(0), testCases))
+    execution_infos = in_env(fnc, list(map(itemgetter(0), testCases)))
     for no, (execution_info, expected) in enumerate(
             zip(execution_infos, map(itemgetter(1), testCases))):
         execution_info["Expected"] = expected
