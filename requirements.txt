@@ -2,3 +2,4 @@ func_timeout==4.3.5
 pathos==0.2.9
 pywin32==304; sys_platform == 'win32'
 sortedcontainers==2.4.0
+numpy==1.23.1
