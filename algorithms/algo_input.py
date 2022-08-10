@@ -252,6 +252,38 @@ class TreeNode:
 
         return list(nodes(j)) == list(nodes(i))
 
+    @staticmethod
+    def in_order(tree_1: "TreeNode"):
+        if not tree_1:
+            return
+        yield from TreeNode.in_order(tree_1.left)
+        yield tree_1.val
+        yield from TreeNode.in_order(tree_1.right)
+
+    @staticmethod
+    def is_valid_binary_tree(tree_1: "TreeNode"):
+        if not tree_1:
+            return True
+        if tree_1.left is not None and tree_1.left.val > tree_1.val:
+            return False
+        if tree_1.right is not None and tree_1.right.val < tree_1.val:
+            return False
+        return TreeNode.is_valid_binary_tree(
+            tree_1.left) and TreeNode.is_valid_binary_tree(tree_1.right)
+
+    @staticmethod
+    def getheight(tree_1: "TreeNode", minHeight=False):
+        if not tree_1:
+            return 0
+        minHeight = int(bool(minHeight))
+        return 1 + (max, min)[minHeight](TreeNode.getheight(
+            tree_1.left, minHeight), TreeNode.getheight(
+                tree_1.right, minHeight))
+
+    @staticmethod
+    def getHeightDiff(tree_1: "TreeNode"):
+        return TreeNode.getheight(tree_1) - TreeNode.getheight(tree_1, True)
+
     def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
