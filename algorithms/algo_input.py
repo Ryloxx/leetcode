@@ -262,14 +262,15 @@ class TreeNode:
 
     @staticmethod
     def is_valid_binary_tree(tree_1: "TreeNode"):
-        if not tree_1:
-            return True
-        if tree_1.left is not None and tree_1.left.val > tree_1.val:
-            return False
-        if tree_1.right is not None and tree_1.right.val < tree_1.val:
-            return False
-        return TreeNode.is_valid_binary_tree(
-            tree_1.left) and TreeNode.is_valid_binary_tree(tree_1.right)
+
+        def dfs(node, m, M):
+            if not node:
+                return True
+            if not m < node.val < M:
+                return False
+            return dfs(node.left, m, node.val) and dfs(node.right, node.val, M)
+
+        return dfs(tree_1, -float('inf'), float('inf'))
 
     @staticmethod
     def getheight(tree_1: "TreeNode", minHeight=False):
