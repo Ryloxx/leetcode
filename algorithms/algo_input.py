@@ -174,7 +174,7 @@ def run(fnc: Callable,
 
 
 def any_order(a, b):
-    return a and b and sorted(a) == sorted(b)
+    return a is not None and b is not None and sorted(a) == sorted(b)
 
 
 def _formated_tree(tree: List[List[Any]], emptyChar: str):
