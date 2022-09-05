@@ -82,9 +82,9 @@ if __name__ == "__main__":
     run(
         MethodType(Solution.isValidBST, Solution()),
         [
-            [[TreeNode.createTree([2, 1, 3])], True],
-            [[TreeNode.createTree([5, 1, 4, None, None, 3, 6])], False],
-            [[TreeNode.createTree([2, 2, 2])], False],
-            [[TreeNode.createTree([5, 4, 6, None, None, 3, 7])], False],
+            [[TreeNode.create_tree([2, 1, 3])], True],
+            [[TreeNode.create_tree([5, 1, 4, None, None, 3, 6])], False],
+            [[TreeNode.create_tree([2, 2, 2])], False],
+            [[TreeNode.create_tree([5, 4, 6, None, None, 3, 7])], False],
         ],
     )

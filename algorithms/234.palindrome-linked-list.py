@@ -93,12 +93,12 @@ if __name__ == "__main__":
     run(
         MethodType(Solution.isPalindrome, Solution()),
         [
-            [[ListNode.createList([1, 2, 3, 4, 5, 4, 3, 2, 1])], True],
-            [[ListNode.createList([1, 2, 3, 4, 4, 3, 2, 1])], True],
-            [[ListNode.createList([1, 2, 2, 1])], True],
-            [[ListNode.createList([1])], True],
-            [[ListNode.createList([1, 1, 1, 1, 1, 1])], True],
-            [[ListNode.createList([1, 1, 1, 1, 1, 1, 1])], True],
-            [[ListNode.createList([1, 2])], False],
+            [[ListNode.create_list([1, 2, 3, 4, 5, 4, 3, 2, 1])], True],
+            [[ListNode.create_list([1, 2, 3, 4, 4, 3, 2, 1])], True],
+            [[ListNode.create_list([1, 2, 2, 1])], True],
+            [[ListNode.create_list([1])], True],
+            [[ListNode.create_list([1, 1, 1, 1, 1, 1])], True],
+            [[ListNode.create_list([1, 1, 1, 1, 1, 1, 1])], True],
+            [[ListNode.create_list([1, 2])], False],
         ],
     )

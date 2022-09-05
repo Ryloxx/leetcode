@@ -86,16 +86,16 @@ class Solution:
 if __name__ == "__main__":
     run(MethodType(Solution.lowestCommonAncestor, Solution()), [
         [[
-            TreeNode.createTree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]),
+            TreeNode.create_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]),
             TreeNode(2),
             TreeNode(8)
         ], 6],
         [[
-            TreeNode.createTree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]),
+            TreeNode.create_tree([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5]),
             TreeNode(2),
             TreeNode(4)
         ], 2],
-        [[TreeNode.createTree([2, 1]),
+        [[TreeNode.create_tree([2, 1]),
           TreeNode(2), TreeNode(1)], 2],
     ],
         comparator=lambda a, b:

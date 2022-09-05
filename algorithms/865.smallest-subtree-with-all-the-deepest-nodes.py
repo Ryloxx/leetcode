@@ -104,13 +104,13 @@ class Solution:
 # @lc code=end
 if __name__ == "__main__":
     run(MethodType(Solution.subtreeWithAllDeepest, Solution()), [
-        [[TreeNode.createTree([0, 1, 3, None, 2])],
-         TreeNode.createTree([2])],
-        [[TreeNode.createTree([])],
-         TreeNode.createTree([])],
-        [[TreeNode.createTree([1])],
-         TreeNode.createTree([1])],
-        [[TreeNode.createTree([3, 5, 1, 6, 2, 0, 8, None, None, 7, 4])],
-         TreeNode.createTree([2, 7, 4])],
+        [[TreeNode.create_tree([0, 1, 3, None, 2])],
+         TreeNode.create_tree([2])],
+        [[TreeNode.create_tree([])],
+         TreeNode.create_tree([])],
+        [[TreeNode.create_tree([1])],
+         TreeNode.create_tree([1])],
+        [[TreeNode.create_tree([3, 5, 1, 6, 2, 0, 8, None, None, 7, 4])],
+         TreeNode.create_tree([2, 7, 4])],
     ],
         comparator=lambda a, b: TreeNode.are_equal(a, b))

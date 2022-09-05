@@ -82,9 +82,9 @@ if __name__ == "__main__":
     run(
         MethodType(Solution.goodNodes, Solution()),
         [
-            [[TreeNode.createTree([3, 1, 4, 3, None, 1, 5])], 4],
-            [[TreeNode.createTree([3, 3, None, 4, 2])], 3],
-            [[TreeNode.createTree([1])], 1],
-            [[TreeNode.createTree([])], 0],
+            [[TreeNode.create_tree([3, 1, 4, 3, None, 1, 5])], 4],
+            [[TreeNode.create_tree([3, 3, None, 4, 2])], 3],
+            [[TreeNode.create_tree([1])], 1],
+            [[TreeNode.create_tree([])], 0],
         ],
     )

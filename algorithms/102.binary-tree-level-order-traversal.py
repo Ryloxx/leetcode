@@ -81,8 +81,8 @@ if __name__ == "__main__":
     run(
         MethodType(Solution.levelOrder, Solution()),
         [
-            [[TreeNode.createTree([3, 9, 20, None, None, 15, 7])],
+            [[TreeNode.create_tree([3, 9, 20, None, None, 15, 7])],
              [[3], [9, 20], [15, 7]]],
-            [[TreeNode.createTree([])], []],
+            [[TreeNode.create_tree([])], []],
         ],
     )

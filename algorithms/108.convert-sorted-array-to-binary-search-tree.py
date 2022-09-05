@@ -76,9 +76,9 @@ class Solution:
 if __name__ == "__main__":
     run(MethodType(Solution.sortedArrayToBST, Solution()), [
         [[[-10, -3, 0, 5, 9]],
-         TreeNode.createTree([0, -3, 9, -10, None, 5])],
-        [[[1, 3]], TreeNode.createTree([3, 1])],
+         TreeNode.create_tree([0, -3, 9, -10, None, 5])],
+        [[[1, 3]], TreeNode.create_tree([3, 1])],
     ],
         comparator=lambda tree_1, tree_2: TreeNode.is_valid_binary_tree(tree_1)
-        and TreeNode.getHeightDiff(tree_1) <= 1 and list(
+        and TreeNode.get_height_diff(tree_1) <= 1 and list(
             TreeNode.in_order(tree_1)) == list(TreeNode.in_order(tree_2)))

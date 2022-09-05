@@ -146,13 +146,13 @@ if __name__ == "__main__":
     run(
         MethodType(Solution.verticalTraversal, Solution()),
         [
-            [[TreeNode.createTree([3, 9, 20, None, None, 15, 7])],
+            [[TreeNode.create_tree([3, 9, 20, None, None, 15, 7])],
              [[9], [3, 15], [20], [7]]],
-            [[TreeNode.createTree([1, 2, 3, 4, 5, 6, 7])],
+            [[TreeNode.create_tree([1, 2, 3, 4, 5, 6, 7])],
              [[4], [2], [1, 5, 6], [3], [7]]],
-            [[TreeNode.createTree([1, 2, 3, 4, 6, 5, 7])],
+            [[TreeNode.create_tree([1, 2, 3, 4, 6, 5, 7])],
              [[4], [2], [1, 5, 6], [3], [7]]],
-            [[TreeNode.createTree([3, 1, 4, 0, 2, 2])],
+            [[TreeNode.create_tree([3, 1, 4, 0, 2, 2])],
              [[0], [1], [3, 2, 2], [4]]],
         ],
     )

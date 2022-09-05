@@ -78,9 +78,9 @@ if __name__ == "__main__":
     run(
         MethodType(Solution.averageOfLevels, Solution()),
         [
-            [[TreeNode.createTree([3, 9, 20, None, None, 15, 7])],
+            [[TreeNode.create_tree([3, 9, 20, None, None, 15, 7])],
              [3.00000, 14.50000, 11.00000]],
-            [[TreeNode.createTree([3, 9, 20, 15, 7])],
+            [[TreeNode.create_tree([3, 9, 20, 15, 7])],
              [3.00000, 14.50000, 11.00000]],
         ],
     )

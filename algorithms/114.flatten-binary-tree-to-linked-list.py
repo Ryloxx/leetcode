@@ -112,14 +112,14 @@ def process(root):
 # @lc code=end
 if __name__ == "__main__":
     run(process, [
-        [[TreeNode.createTree([1, 2, 5, 3, 4, None, 6])],
-         TreeNode.createTree([1, None, 2, None, 3, None, 4, None, 5, None, 6])
+        [[TreeNode.create_tree([1, 2, 5, 3, 4, None, 6])],
+         TreeNode.create_tree([1, None, 2, None, 3, None, 4, None, 5, None, 6])
          ],
-        [[TreeNode.createTree([1, 2, 4, 3, None, None, 5])],
-         TreeNode.createTree([1, None, 2, None, 3, None, 4, None, 5])],
-        [[TreeNode.createTree([])],
-         TreeNode.createTree([])],
-        [[TreeNode.createTree([0])],
-         TreeNode.createTree([0])],
+        [[TreeNode.create_tree([1, 2, 4, 3, None, None, 5])],
+         TreeNode.create_tree([1, None, 2, None, 3, None, 4, None, 5])],
+        [[TreeNode.create_tree([])],
+         TreeNode.create_tree([])],
+        [[TreeNode.create_tree([0])],
+         TreeNode.create_tree([0])],
     ],
         comparator=lambda a, b: TreeNode.are_equal(a, b))

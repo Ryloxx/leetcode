@@ -94,15 +94,19 @@ if __name__ == "__main__":
     run(
         MethodType(Solution.minCameraCover, Solution()),
         [
-            [[TreeNode.createTree([0, None, 0, None, 0, None, 0])], 2],
-            [[TreeNode.createTree([0, 0, None, 0, 0])], 1],
-            [[TreeNode.createTree([0])], 1],
-            [[TreeNode.createTree([0, None, 0, 0, None, 0, 0, None, None, 0])],
-             3],
-            [[TreeNode.createTree([0, 0, None, 0, 0, 0, None, None, 0])], 3],
-            [[TreeNode.createTree([0, 0, None, 0, None, 0, None, None, 0])], 2
+            [[TreeNode.create_tree([0, None, 0, None, 0, None, 0])], 2],
+            [[TreeNode.create_tree([0, 0, None, 0, 0])], 1],
+            [[TreeNode.create_tree([0])], 1],
+            [[
+                TreeNode.create_tree(
+                    [0, None, 0, 0, None, 0, 0, None, None, 0])
+            ], 3],
+            [[TreeNode.create_tree([0, 0, None, 0, 0, 0, None, None, 0])], 3],
+            [[TreeNode.create_tree([0, 0, None, 0, None, 0, None, None, 0])], 2
              ],
-            [[TreeNode.createTree([0, 0, None, None, 0, 0, None, None, 0, 0])],
-             2],
+            [[
+                TreeNode.create_tree(
+                    [0, 0, None, None, 0, 0, None, None, 0, 0])
+            ], 2],
         ],
     )
