@@ -1,3 +1,4 @@
+from collections import deque
 from itertools import chain
 from operator import itemgetter
 from func_timeout import FunctionTimedOut, func_timeout
@@ -193,7 +194,7 @@ def _formated_tree(tree: List[List[Any]], emptyChar: str):
 class TreeNode:
 
     @staticmethod
-    def createTree(nums: List[int | None]):
+    def create_tree(nums: List[int | None]):
         if not nums:
             return None
         root = TreeNode(nums[0])
@@ -273,17 +274,17 @@ class TreeNode:
         return dfs(tree_1, -float('inf'), float('inf'))
 
     @staticmethod
-    def getheight(tree_1: "TreeNode", minHeight=False):
+    def get_height(tree_1: "TreeNode", minHeight=False):
         if not tree_1:
             return 0
         minHeight = int(bool(minHeight))
-        return 1 + (max, min)[minHeight](TreeNode.getheight(
-            tree_1.left, minHeight), TreeNode.getheight(
-                tree_1.right, minHeight))
+        return 1 + (max, min)[minHeight](
+            TreeNode.get_height(tree_1.left, minHeight),
+            TreeNode.get_height(tree_1.right, minHeight))
 
     @staticmethod
-    def getHeightDiff(tree_1: "TreeNode"):
-        return TreeNode.getheight(tree_1) - TreeNode.getheight(tree_1, True)
+    def get_height_diff(tree_1: "TreeNode"):
+        return TreeNode.get_height(tree_1) - TreeNode.get_height(tree_1, True)
 
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -294,10 +295,43 @@ class TreeNode:
         return TreeNode._tree(self)
 
 
+class NTreeNode:
+
+    def __init__(self,
+                 val: Any | None = None,
+                 children: List["NTreeNode"] | None = None):
+        self.val = val
+        self.children = children
+
+    def append_child(self, node: "NTreeNode"):
+        if self.children is None:
+            self.children = [node]
+        else:
+            self.children.append(node)
+
+    @staticmethod
+    def create_tree(nums: List[int | None]):
+        root = None
+        parents = deque()
+        current_parent = None
+        for value in nums:
+            if value is None:
+                current_parent = parents.popleft()
+                continue
+            node = NTreeNode(value)
+            parents.append(node)
+            if current_parent:
+                current_parent.append_child(node)
+            else:
+                root = node
+
+        return root
+
+
 class ListNode:
 
     @staticmethod
-    def createList(nums: List[int | None]):
+    def create_list(nums: List[int | None]):
         root = ListNode()
         current = root
         for i in nums:
