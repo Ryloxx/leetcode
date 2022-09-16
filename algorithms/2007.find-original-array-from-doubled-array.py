@@ -59,6 +59,7 @@
 #
 #
 #
+from collections import Counter
 from itertools import chain
 from random import shuffle
 from typing import List
@@ -72,13 +73,17 @@ class Solution:
     def findOriginalArray(self, changed: List[int]) -> List[int]:
         if len(changed) % 2:
             return []
-        changed.sort()
-        right = len(changed) // 2
+        changed_counter = Counter(changed)
         res = []
-        for i in range(right):
-            if changed[right] != changed[i] * 2:
+        for i in sorted(changed_counter.keys()):
+            count = changed_counter[i]
+            if not i:
+                count >>= 1
+            changed_counter[i] -= count
+            changed_counter[i << 1] -= count
+            if changed_counter[i << 1] < 0:
                 return []
-            res.append(i)
+            res.extend([i] * count)
         return res
 
 
