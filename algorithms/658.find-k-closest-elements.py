@@ -51,7 +51,7 @@ from types import MethodType
 # @lc code=start
 class Solution:
 
-    # O(log(N-K)) time complexity
+    # O(log(N-K) + K) time complexity
     # O(1) space complexity
     def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
         lo, hi = 0, len(arr) - k
