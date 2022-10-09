@@ -61,10 +61,10 @@ class Solution:
     def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
         seen = defaultdict(int)
 
-        def dfs(node):
+        def dfs(node) -> bool:
             if not node:
                 return False
-            seen_count = seen[k - node.val]
+            seen_count = bool(seen[k - node.val])
             seen[node.val] += 1
             return seen_count or dfs(node.left) or dfs(node.right)
 
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     run(
         MethodType(Solution.findTarget, Solution()),
         [
-            [[TreeNode.create_tree([5, 3, 6, 2, 4, None, 7]), 9], True],
-            [[TreeNode.create_tree([5, 3, 6, 2, 4, None, 7]), 28], False],
+            ([TreeNode.create_tree([5, 3, 6, 2, 4, None, 7]), 9], True),
+            ([TreeNode.create_tree([5, 3, 6, 2, 4, None, 7]), 28], False),
         ],
     )
