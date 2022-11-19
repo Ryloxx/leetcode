@@ -1,0 +1,10 @@
+{
+    "include": [
+        "algorithms"
+    ],
+    "exclude": [
+        "**/__pycache__",
+    ],
+    "reportUnusedExpression": "none",
+    "pythonVersion": "3.10",
+}
