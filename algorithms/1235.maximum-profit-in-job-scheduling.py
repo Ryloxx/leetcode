@@ -77,9 +77,8 @@ class Solution:
 
     def jobScheduling(self, startTime: List[int], endTime: List[int],
                       profit: List[int]) -> int:
-        s_p = sorted(zip(endTime, startTime, profit))
         dp = [[0, 0]]
-        for e, s, p in s_p:
+        for e, s, p in sorted(zip(endTime, startTime, profit)):
             o = bisect_right(dp, [s + 1]) - 1
             if dp[o][1] + p > dp[-1][1]:
                 dp.append([e, p + dp[o][1]])
