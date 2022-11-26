@@ -77,8 +77,7 @@ class Solution:
 
     def jobScheduling(self, startTime: List[int], endTime: List[int],
                       profit: List[int]) -> int:
-        s_p = sorted(zip(endTime, startTime, profit),
-                     key=lambda x: [x[0], -x[1]])
+        s_p = sorted(zip(endTime, startTime, profit))
         dp = [[0, 0]]
         for e, s, p in s_p:
             o = bisect_right(dp, [s + 1]) - 1
