@@ -68,10 +68,8 @@ from collections import Counter
 class Solution:
 
     def frequencySort(self, s: str) -> str:
-        return "".join(
-            (char * char_count for char_count, char in sorted((
-                (char_count, char) for char, char_count in Counter(s).items()),
-                                                              reverse=True)))
+        return "".join((char * char_count for char, char_count in sorted(
+            Counter(s).items(), key=lambda x: x[1], reverse=True)))
 
 
 # @lc code=end
@@ -81,7 +79,7 @@ if __name__ == "__main__":
         [
             (["tree"], "eetr"),
             (["cccaaa"], "cccaaa"),
-            (["Aabb"], "bbaA"),
+            (["Aabb"], "bbAa"),
             (["z"], "z"),
             (["2a554442f544asfasssffffasss"], "sssssssffffff44444aaaa55522"),
         ],
