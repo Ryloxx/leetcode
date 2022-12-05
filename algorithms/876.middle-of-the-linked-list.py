@@ -60,12 +60,9 @@ class Solution:
 
     def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
         curr = head
-        length = 0
-        while head:
-            if length % 2:
-                curr = curr.next  # type: ignore
-            length += 1
-            head = head.next
+        while head and head.next:
+            curr = curr.next  # type: ignore
+            head = head.next.next
         return curr
 
 
@@ -76,5 +73,8 @@ if __name__ == "__main__":
           ], ListNode.create_list([3, 4, 5])),
         ([ListNode.create_list([1, 2, 3, 4, 5, 6])
           ], ListNode.create_list([4, 5, 6])),
+        ([ListNode.create_list([])], ListNode.create_list([])),
+        ([ListNode.create_list([1])], ListNode.create_list([1])),
+        ([ListNode.create_list([1, 2])], ListNode.create_list([2])),
     ],
         comparator=ListNode.are_equal)
