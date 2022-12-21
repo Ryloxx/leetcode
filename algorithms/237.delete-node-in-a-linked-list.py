@@ -92,10 +92,11 @@ class Solution:
 
 # @lc code=end
 if __name__ == "__main__":
-    run(lambda l, idx: Solution().deleteNode(ListNode.get(l, idx)) or l, [
-        ([ListNode.create_list([4, 5, 1, 9]), 1
-          ], ListNode.create_list([4, 1, 9])),
-        ([ListNode.create_list([4, 5, 1, 9]), 2
-          ], ListNode.create_list([4, 5, 9])),
-    ],
+    run(lambda llist, idx: Solution().deleteNode(ListNode.get(llist, idx)) or
+        llist, [
+            ([ListNode.create_list([4, 5, 1, 9]), 1
+              ], ListNode.create_list([4, 1, 9])),
+            ([ListNode.create_list([4, 5, 1, 9]), 2
+              ], ListNode.create_list([4, 5, 9])),
+        ],
         comparator=ListNode.are_equal)

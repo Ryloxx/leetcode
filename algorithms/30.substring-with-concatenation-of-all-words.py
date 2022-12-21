@@ -85,7 +85,7 @@ class Solution:
             for w in words)
         rolling_hash, p_limit = 0, pow(p, w_len, mod)
         hashes = [
-            rolling_hash :=
+            rolling_hash :=  # noqa: F841
             (rolling_hash * p + ord(s[idx]) -
              (ord(s[idx - w_len]) * p_limit if idx >= w_len else 0)) % mod
             for idx in range(len(s))
