@@ -65,16 +65,10 @@ from types import MethodType
 class Solution:
 
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
-
-        def dfs(node):
-            if not node:
-                yield None
-                return
-            yield node.val
-            yield from dfs(node.left)
-            yield from dfs(node.right)
-
-        return all(x == y for x, y in zip(dfs(p), dfs(q)))
+        if not p or not q:
+            return p == q
+        return (p.val == q.val and self.isSameTree(p.left, q.left)
+                and self.isSameTree(p.right, q.right))
 
 
 # @lc code=end
