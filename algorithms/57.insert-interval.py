@@ -70,13 +70,13 @@ class Solution:
         start = [x[0] for x in vals]
         index = bisect_left(start, val[0])
         vals.insert(index, val)
-        ans = [vals[0]]
+        res = [vals[0]]
         for i in vals[1:]:
-            if i[0] > ans[-1][1]:
-                ans.append(i)
+            if i[0] > res[-1][1]:
+                res.append(i)
             else:
-                ans[-1][1] = max(ans[-1][1], i[1])
-        return ans
+                res[-1][1] = max(res[-1][1], i[1])
+        return res
 
 
 # @lc code=end
