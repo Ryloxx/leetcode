@@ -77,6 +77,7 @@
 #
 #
 from heapq import heappop, heappush
+from sys import maxsize
 from typing import List
 from algo_input import run
 from types import MethodType
@@ -92,7 +93,7 @@ class Solution:
     def minimumDeviation(self, nums: List[int]) -> int:
         h = []
         max_value = (-float("inf"), -1)
-        res = float('inf')
+        res = maxsize
         all_power_of_two = True
         for x in nums:
             value = (x // (x & -x), x)
@@ -117,14 +118,14 @@ if __name__ == "__main__":
     run(
         MethodType(Solution.minimumDeviation, Solution()),
         [
-            [[[8, 1, 2, 1]], 0],
-            [[[7, 20]], 2],
-            [[[2, 8, 6, 1, 6]], 1],
-            [[[399, 908, 648, 357, 693, 502, 331, 649, 596, 698]], 315],
-            [[[10, 4, 3]], 2],
-            [[[1, 1, 1, 1]], 0],
-            [[[4, 1, 5, 20, 3]], 3],
-            [[[1, 2, 3, 4]], 1],
-            [[[2, 10, 8]], 3],
+            ([[8, 1, 2, 1]], 0),
+            ([[7, 20]], 2),
+            ([[2, 8, 6, 1, 6]], 1),
+            ([[399, 908, 648, 357, 693, 502, 331, 649, 596, 698]], 315),
+            ([[10, 4, 3]], 2),
+            ([[1, 1, 1, 1]], 0),
+            ([[4, 1, 5, 20, 3]], 3),
+            ([[1, 2, 3, 4]], 1),
+            ([[2, 10, 8]], 3),
         ],
     )
