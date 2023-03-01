@@ -55,35 +55,36 @@ from types import MethodType
 # @lc code=start
 class Solution:
 
+    # O(NlogN) time complexity
+    # O(1) space complexity
+    def sortArray(self, nums: List[int]) -> List[int]:
+
+        def heapify(lo, hi):
+            while lo < hi:
+                m = max(lo,
+                        lo * 2 + 1,
+                        lo * 2 + 2,
+                        key=lambda x: nums[x] if x < hi else -float('inf'))
+
+                if m != lo:
+                    nums[m], nums[lo] = nums[lo], nums[m]
+                    lo = m
+                else:
+                    break
+
+        for i in range(len(nums) // 2, -1, -1):
+            heapify(i, len(nums))
+
+        for i in range(len(nums) - 1, -1, -1):
+            nums[0], nums[i] = nums[i], nums[0]
+            heapify(0, i)
+        return nums
+
     # Lazy, uses Tim Sort under the hood
     # O(NlogN) time complexity
     # O(N) space complexity
-    def sortArray(self, nums: List[int]) -> List[int]:
-        nums.sort()
-        return nums
-
-    # O(NlogN) time complexity
-    # O(1) space complexity
     # def sortArray(self, nums: List[int]) -> List[int]:
-
-    #     def heapify(lo, hi):
-    #         if lo >= hi:
-    #             return
-    #         m = max(lo,
-    #                 lo * 2 + 1,
-    #                 lo * 2 + 2,
-    #                 key=lambda x: nums[x] if x < hi else -float('inf'))
-
-    #         if m != lo:
-    #             nums[m], nums[lo] = nums[lo], nums[m]
-    #             heapify(m, hi)
-
-    #     for i in range(len(nums) // 2, -1, -1):
-    #         heapify(i, len(nums))
-
-    #     for i in range(len(nums) - 1, -1, -1):
-    #         nums[0], nums[i] = nums[i], nums[0]
-    #         heapify(0, i)
+    #     nums.sort()
     #     return nums
 
     # O(NlogN) time complexity
