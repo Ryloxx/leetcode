@@ -120,9 +120,12 @@ if __name__ == "__main__":
         if not res:
             return -1
         idx = 0
-        while head and head != res:
-            head = head.next
+        dummy = head
+        while dummy and dummy != res:
+            dummy = dummy.next
             idx += 1
+            if dummy == head:
+                break
         return idx
 
     run(
