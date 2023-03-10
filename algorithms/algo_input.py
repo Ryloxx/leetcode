@@ -9,7 +9,7 @@ from sys import setrecursionlimit
 import textwrap
 from timeit import default_timer
 from traceback import format_tb
-from typing import Any, Callable, List, Optional, Tuple
+from typing import Any, Callable, Generator, List, Optional, Tuple
 
 IS_DEBUG = "DEBUG" in os.environ \
         and os.environ["DEBUG"].lower() == "true"
@@ -44,16 +44,18 @@ def limitMemory(memoryLimit: int):
     else:
         import win32api
         import win32job
-        job = win32job.CreateJobObject(None, 'LeetCode Env')
+        job = win32job.CreateJobObject(None, 'LeetCode Env')  # type: ignore
         currentProcess = win32api.GetCurrentProcess()
         jobInfo = win32job.QueryInformationJobObject(
-            job, win32job.JobObjectExtendedLimitInformation)
+            job, win32job.JobObjectExtendedLimitInformation)  # type: ignore
         jobInfo["ProcessMemoryLimit"] = memoryLimit
         jobInfo["BasicLimitInformation"]["LimitFlags"] |=\
             win32job.JOB_OBJECT_LIMIT_PROCESS_MEMORY
         win32job.SetInformationJobObject(
-            job, win32job.JobObjectExtendedLimitInformation, jobInfo)
-        win32job.AssignProcessToJobObject(job, currentProcess)
+            job,  # type: ignore
+            win32job.JobObjectExtendedLimitInformation,
+            jobInfo)
+        win32job.AssignProcessToJobObject(job, currentProcess)  # type: ignore
 
 
 def getLastError():
@@ -145,7 +147,7 @@ def truncate(obj: Any, width: int):
 
 def run(fnc: Callable,
         testCases: List[Tuple[List[Any], Any]],
-        comparator=lambda x, y: x == y):
+        comparator: Callable[[Any, Any], bool] = lambda x, y: x == y):
     execution_infos = in_env(fnc, list(map(itemgetter(0), testCases)))
     for no, (execution_info, expected) in enumerate(
             zip(execution_infos, map(itemgetter(1), testCases))):
@@ -194,7 +196,7 @@ def _formated_tree(tree: List[List[Any]], emptyChar: str):
 class TreeNode:
 
     @staticmethod
-    def create_tree(nums: List[int | None]):
+    def create_tree(nums: List[Optional[int]]):
         if not nums:
             return None
         root = TreeNode(nums[0])
@@ -219,7 +221,8 @@ class TreeNode:
 
     @staticmethod
     def _tree(root: "TreeNode", emptyChar="x"):
-        current, tree = [root], []
+        current: List[Optional[TreeNode]] = [root]
+        tree = []
         while current.count(None) != len(current):
             tree.append(current)
             current = list(
@@ -230,13 +233,15 @@ class TreeNode:
         ], emptyChar)
 
     @staticmethod
-    def are_equal(tree_1, tree_2: object) -> bool:
-        i, j = tree_1, tree_2
+    def are_equal(tree_1, tree_2: Optional["TreeNode"]) -> bool:
 
-        def nodes(root: Optional["TreeNode"]) -> List[int]:
+        def nodes(
+            root: Optional["TreeNode"]
+        ) -> Generator[Optional[Any], None, Optional[List[Optional[int]]]]:
             if not root:
                 return []
-            traversal, left, empty_count = [root], 0, 0
+            traversal: List[Optional[TreeNode]] = [root]
+            left = empty_count = 0
             while left + empty_count < len(traversal):
                 empty_count = 0
                 for idx in range(left, len(traversal)):
@@ -251,10 +256,10 @@ class TreeNode:
                     yield node.val if node else None
                     left += 1
 
-        return list(nodes(j)) == list(nodes(i))
+        return list(nodes(tree_1)) == list(nodes(tree_2))
 
     @staticmethod
-    def in_order(tree_1: "TreeNode"):
+    def in_order(tree_1: Optional["TreeNode"]):
         if not tree_1:
             return
         yield from TreeNode.in_order(tree_1.left)
@@ -274,7 +279,8 @@ class TreeNode:
         return dfs(tree_1, -float('inf'), float('inf'))
 
     @staticmethod
-    def get_height(tree_1: "TreeNode", minHeight=False):
+    def get_height(tree_1: Optional["TreeNode"],
+                   minHeight: int | bool = False):
         if not tree_1:
             return 0
         minHeight = int(bool(minHeight))
@@ -286,7 +292,10 @@ class TreeNode:
     def get_height_diff(tree_1: "TreeNode"):
         return TreeNode.get_height(tree_1) - TreeNode.get_height(tree_1, True)
 
-    def __init__(self, val=0, left=None, right=None):
+    def __init__(self,
+                 val: Any = 0,
+                 left: Optional["TreeNode"] = None,
+                 right: Optional["TreeNode"] = None):
         self.val = val
         self.left = left
         self.right = right
@@ -298,19 +307,19 @@ class TreeNode:
 class NTreeNode:
 
     def __init__(self,
-                 val: Any | None = None,
-                 children: List["NTreeNode"] | None = None):
+                 val: Optional[Any] = None,
+                 children: Optional[List["NTreeNode"]] = None):
         self.val = val
         self.children = children
 
-    def append_child(self, node: "NTreeNode"):
+    def append_child(self, node: Optional["NTreeNode"]):
         if self.children is None:
             self.children = [node]
-        else:
+        elif node:
             self.children.append(node)
 
     @staticmethod
-    def create_tree(nums: List[int | None]):
+    def create_tree(nums: List[Optional[int]]):
         root = None
         parents = deque()
         current_parent = None
@@ -331,7 +340,7 @@ class NTreeNode:
 class ListNode:
 
     @staticmethod
-    def create_list(nums: List[int | None]):
+    def create_list(nums: List[Optional[int]]):
         root = ListNode()
         current = root
         for i in nums:
@@ -339,14 +348,31 @@ class ListNode:
         return root.next
 
     @staticmethod
-    def are_equal(list_1, list_2: object) -> bool:
-        i, j = list_1, list_2
-        while i is not None and j is not None and i.val == j.val:
-            i = i.next
-            j = j.next
-        return i is None and j is None
+    def get(list_head: Optional["ListNode"], idx: int):
+        if not list_head:
+            raise TypeError
+        if idx < 0:
+            raise IndexError
+        head: "ListNode" = list_head
+        while idx:
+            if not head.next:
+                raise IndexError
+            head = head.next
+            idx -= 1
+        return head
 
-    def __init__(self, val=0, next=None):
+    @staticmethod
+    def are_equal(list_1: Optional["ListNode"],
+                  list_2: Optional["ListNode"]) -> bool:
+        while (list_1 is not None and list_2 is not None
+               and list_1.val == list_2.val):
+            list_1 = list_1.next
+            list_2 = list_2.next
+        return list_1 is None and list_2 is None
+
+    def __init__(self,
+                 val: Optional[Any] = 0,
+                 next: Optional["ListNode"] = None):
         self.val = val
         self.next = next
 
