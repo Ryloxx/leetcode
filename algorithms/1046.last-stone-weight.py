@@ -73,11 +73,12 @@ class Solution:
     def lastStoneWeight(self, stones: List[int]) -> int:
         if not stones:
             return 0
-        h = [-x for x in stones]
-        heapify(h)
-        while len(h) > 1:
-            heappush(h, heappop(h) - heappop(h))
-        return -h[-1]
+        for x in range(len(stones)):
+            stones[x] = -stones[x]
+        heapify(stones)
+        while len(stones) > 1:
+            heappush(stones, heappop(stones) - heappop(stones))
+        return -stones[-1]
 
 
 # @lc code=end
