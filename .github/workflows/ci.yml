@@ -27,4 +27,4 @@ jobs:
         with:
           main-branch-name: master
       - name: Execute Python algorithms
-        run: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E ^[^DU].+\.py$ | sed "s/^.\s*//g" | xargs -t -i python {}
+        run: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E ^[MTAC].+\.py$ | sed "s/^.\s*//g" | xargs -t -i python {}
