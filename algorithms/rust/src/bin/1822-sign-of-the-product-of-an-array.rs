@@ -67,11 +67,16 @@ struct Solution;
 // @lc code=start
 impl Solution {
     pub fn array_sign(nums: Vec<i32>) -> i32 {
-        match nums.into_iter().reduce(|acc, e| acc * e).unwrap() {
-            x if x < 0 => -1,
-            x if x > 0 => 1,
-            _ => 0,
+        let mut res = 1;
+        for x in nums {
+            if x == 0 {
+                return 0;
+            }
+            if x < 0 {
+                res *= -1
+            }
         }
+        res
     }
 }
 // @lc code=end
@@ -83,7 +88,6 @@ fn main() {
             ((vec![-1, -2, -3, -4, 3, 2, 1]), 1),
             ((vec![1, 5, 0, 2, -3]), 0),
             ((vec![-1, 1, -1, 1, -1]), -1),
-            ((vec![-1, 1, -1, 1, -1]), 0),
         ],
     );
 }
