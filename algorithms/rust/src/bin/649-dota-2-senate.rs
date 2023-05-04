@@ -92,21 +92,17 @@ impl Solution {
         let mut q = senate.chars().collect::<VecDeque<char>>();
 
         while balance.abs() < q.len() as i32 {
-            let curr = q.pop_front();
-            if let Some(c) = curr {
-                if c == 'R' {
-                    if balance >= 0 {
-                        q.push_back(c);
-                    }
-                    balance += 1;
-                } else if c == 'D' {
-                    if balance <= 0 {
-                        q.push_back(c);
-                    }
-                    balance -= 1;
+            let c = q.pop_front().unwrap();
+            if c == 'R' {
+                if balance >= 0 {
+                    q.push_back(c);
                 }
-            } else {
-                break;
+                balance += 1;
+            } else if c == 'D' {
+                if balance <= 0 {
+                    q.push_back(c);
+                }
+                balance -= 1;
             }
         }
         match q.pop_front().unwrap() {
