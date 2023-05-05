@@ -58,18 +58,20 @@ struct Solution;
 // @lc code=start
 impl Solution {
     pub fn max_vowels(s: String, k: i32) -> i32 {
+        let k: usize = k as usize;
         let s = s.as_bytes();
-        (0..s.len())
-            .fold((0, 0), |mut acc, idx| {
-                acc.1 += 0x104111 >> (s[idx] - b'a') & 1;
-                let idx = idx as i32 - k;
-                if idx >= 0 {
-                    acc.1 -= 0x104111 >> (s[idx as usize] - b'a') & 1
-                }
-                acc.0 = acc.0.max(acc.1);
-                acc
-            })
-            .0
+        let f = |e| 0x104111 >> (e - b'a') & 1;
+        let pre = s.iter().take(k).map(f).sum();
+        std::cmp::max(
+            pre,
+            (k..s.len())
+                .scan(pre, |acc, idx| {
+                    *acc += f(&s[idx]) - f(&s[idx - k]);
+                    Some(*acc)
+                })
+                .max()
+                .unwrap_or(0),
+        )
     }
 }
 // @lc code=end
@@ -88,6 +90,7 @@ fn main() {
             (("a", 1), 1),
             (("a", 0), 0),
             (("tryhard", 4), 1),
+            (("ibpbhixfiouhdljnjfflpapptrxgcomvnb", 33), 7),
         ],
         |a, b| a == b,
     )
