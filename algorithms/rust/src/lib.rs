@@ -17,8 +17,23 @@ pub struct TestResult<T: Ord + Debug> {
     cmp_f: Rc<dyn Fn(&T, &T) -> bool>,
 }
 
+const IS_DEBUG: bool = false;
+const LEETCODE_MAX_RECURSION_DEPTH: u32 = 20_000;
+const LEETCODE_MAX_MEMORY: u32 = 800 * 1024 * 1024; // 800 MB
+const LEETCODE_MAX_TIMEOUT_MS: i32 = if IS_DEBUG { 1000 * 60 * 60 } else { 3000 }; // 3000 ms
+const BATCH_SIZE: u32 = 5;
+const MAX_PRINT_WIDTH_RESULT: u32 = if IS_DEBUG { u32::MAX } else { 200 };
+
 impl<T: Ord + Debug> Debug for TestResult<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut ret = if let Some(ret) = self.result.as_ref() {
+            format!("{:?}", ret)
+        } else {
+            "".to_string()
+        };
+        let mut expect = format!("{:?}", self.expected);
+        ret.truncate(MAX_PRINT_WIDTH_RESULT as usize);
+        expect.truncate(MAX_PRINT_WIDTH_RESULT as usize);
         write!(f, "Test nº \u{001B}[34m{}\u{001B}[0m - {} - {{'Time': '{}ms', 'Execution Error': {}, 'Result': '{:?}', 'Expected': '{:?}'}}", self.id,
         if let Some(res) = self.result.as_ref() {
             if self.cmp_f.as_ref()(&self.expected, res) {
@@ -31,9 +46,8 @@ impl<T: Ord + Debug> Debug for TestResult<T> {
          },
          (self.time.as_nanos() as f64) / 1000000.,
          if let Some(error) = self.error.as_ref() {error.as_str()} else {"N/A"},
-         if let Some(ret) = self.result.as_ref() { format!("{:?}", ret) } else {"".to_string()},
-         self.expected)?;
-
+         ret,
+         expect)?;
         Ok(())
     }
 }
