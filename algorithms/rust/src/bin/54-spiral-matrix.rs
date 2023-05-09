@@ -51,25 +51,23 @@ impl Solution {
         }
         let mut matrix = matrix;
         let (m, n) = (matrix.len(), matrix[0].len());
-        let directions: Vec<(i32, i32)> = vec![(0, 1), (1, 0), (0, -1), (-1, 0)];
+        let directions = vec![(0, 1), (1, 0), (0, !0), (!0, 0)];
         let mut current_direction = 0;
         let (mut y, mut x) = (0, 0);
         let mut res = vec![];
         for _ in 0..(m * n) {
             res.push(matrix[y][x]);
             matrix[y][x] = i32::MAX;
-            let yi: i32 = y as i32 + directions[current_direction].0;
-            let xi: i32 = x as i32 + directions[current_direction].1;
-            if yi < 0
-                || yi >= m as i32
-                || xi < 0
-                || xi >= n as i32
-                || matrix[yi as usize][xi as usize] == i32::MAX
-            {
+            let yi = y.wrapping_add(directions[current_direction].0);
+            let xi = x.wrapping_add(directions[current_direction].1);
+            if yi >= m || xi >= n || matrix[yi][xi] == i32::MAX {
                 current_direction = (current_direction + 1) % 4;
+                y = y.wrapping_add(directions[current_direction].0);
+                x = x.wrapping_add(directions[current_direction].1);
+            } else {
+                y = yi;
+                x = xi;
             }
-            y = (y as i32 + directions[current_direction].0) as usize;
-            x = (x as i32 + directions[current_direction].1) as usize;
         }
         res
     }
@@ -87,6 +85,10 @@ fn main() {
             (
                 vec![vec![1, 2, 3, 4], vec![5, 6, 7, 8], vec![9, 10, 11, 12]],
                 vec![1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7],
+            ),
+            (
+                vec![vec![2, 5], vec![8, 4], vec![0, -1]],
+                vec![2, 5, 4, -1, 0, 8],
             ),
         ],
         |a, b| a == b,
