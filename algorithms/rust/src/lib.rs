@@ -8,7 +8,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-pub struct TestResult<T: Ord + Debug> {
+pub struct TestResult<T: PartialEq + Debug> {
     expected: T,
     result: Option<T>,
     id: usize,
@@ -24,7 +24,7 @@ const IS_DEBUG: bool = false;
 // const BATCH_SIZE: u32 = 5;
 const MAX_PRINT_WIDTH_RESULT: u32 = if IS_DEBUG { u32::MAX } else { 200 };
 
-impl<T: Ord + Debug> Debug for TestResult<T> {
+impl<T: PartialEq + Debug> Debug for TestResult<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut ret = if let Some(ret) = self.result.as_ref() {
             format!("{:?}", ret)
@@ -54,7 +54,7 @@ impl<T: Ord + Debug> Debug for TestResult<T> {
 
 pub fn test_algo<F, T, V, C>(f: F, input: Vec<(T, V)>, cmp: C)
 where
-    V: Ord + Debug + Send + 'static,
+    V: PartialEq + Debug + Send + 'static,
     F: Fn(T) -> V + Sync + Send + RefUnwindSafe + 'static,
     T: Sync + Send + UnwindSafe + 'static,
     C: Fn(&V, &V) -> bool + 'static,
