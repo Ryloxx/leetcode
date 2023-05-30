@@ -100,7 +100,6 @@ impl MyHashSet {
 // use std::collections::HashSet;
 // struct MyHashSet(HashSet<i32>);
 
-
 // // LAZY
 // impl MyHashSet {
 //     fn new() -> Self {
@@ -119,8 +118,6 @@ impl MyHashSet {
 //         self.0.contains(&key)
 //     }
 // }
-
-
 
 /**
  * Your MyHashSet object will be instantiated and called as such:
