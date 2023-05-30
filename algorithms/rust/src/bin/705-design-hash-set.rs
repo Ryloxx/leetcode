@@ -59,20 +59,8 @@
 */
 
 // @lc code=start
-
-#[derive(Clone)]
-struct Node {
-    val: i32,
-    next: Option<Box<Node>>,
-}
-impl Node {
-    fn new(val: i32) -> Self {
-        Self { val, next: None }
-    }
-}
-
 struct MyHashSet {
-    lookup: Vec<Option<Box<Node>>>,
+    buckets: Vec<Vec<i32>>,
     size: usize,
 }
 
@@ -82,77 +70,30 @@ struct MyHashSet {
  */
 impl MyHashSet {
     fn new() -> Self {
-        const SIZE: usize = 10000;
+        const SIZE: usize = 1000;
         MyHashSet {
             size: SIZE,
-            lookup: vec![None; SIZE],
+            buckets: vec![vec![]; SIZE],
         }
     }
 
     fn add(&mut self, key: i32) {
-        let idx = key.unsigned_abs() as usize % self.size;
-        let new_node = Some(Box::new(Node::new(key)));
-        if let Some(root) = self.lookup[idx].as_mut() {
-            let mut pointer = root as *mut Box<Node>;
-            unsafe {
-                while (*pointer).val != key && (*pointer).next.is_some() {
-                    pointer = (*pointer).next.as_mut().unwrap() as *mut Box<Node>;
-                }
-                if (*pointer).val != key {
-                    (*pointer).next = new_node;
-                }
-            }
-        } else {
-            self.lookup[idx] = new_node;
-        };
+        let bucket = &mut self.buckets[key.unsigned_abs() as usize % self.size];
+        if let None = bucket.iter().position(|&x| x == key) {
+            bucket.push(key)
+        }
     }
 
     fn remove(&mut self, key: i32) {
-        let idx = key.unsigned_abs() as usize % self.size;
-        if self.lookup[idx].is_none() {
-            return;
-        }
-        let mut current = self.lookup[idx].as_mut().unwrap() as *mut Box<Node>;
-        let mut prev_pointer: Option<*mut Box<Node>> = None;
-        unsafe {
-            loop {
-                if (*current).val == key {
-                    if let Some(prev) = prev_pointer {
-                        let _ = std::mem::replace(&mut (*prev).next, (*current).next.take());
-                    } else {
-                        self.lookup[idx] = (*current).next.take();
-                    }
-                    return;
-                }
-
-                prev_pointer = Some(current.clone());
-                if let Some(next) = (*current).next.as_mut() {
-                    current = next as *mut Box<Node>;
-                } else {
-                    break;
-                }
-            }
+        let bucket = &mut self.buckets[key.unsigned_abs() as usize % self.size];
+        if let Some(idx) = bucket.iter().position(|&x| x == key) {
+            bucket.swap_remove(idx);
         }
     }
 
     fn contains(&self, key: i32) -> bool {
-        let idx = key.unsigned_abs() as usize % self.size;
-        if let Some(root) = self.lookup[idx].as_ref() {
-            let mut current = root as *const Box<Node>;
-            unsafe {
-                loop {
-                    if (*current).val == key {
-                        return true;
-                    }
-                    if let Some(next) = (*current).next.as_ref() {
-                        current = next as *const Box<Node>;
-                    } else {
-                        break;
-                    }
-                }
-            }
-        }
-        false
+        let bucket = &self.buckets[key.unsigned_abs() as usize % self.size];
+        return bucket.iter().position(|&x| x == key).is_some();
     }
 }
 
@@ -178,6 +119,8 @@ impl MyHashSet {
 //         self.0.contains(&key)
 //     }
 // }
+
+
 
 /**
  * Your MyHashSet object will be instantiated and called as such:
