@@ -15,9 +15,9 @@
  *
  * You are given an array of integers nums and an integer target.
  *
- * Return the number of non-empty subsequences of nums such that the sum of the
- * minimum and maximum element on it is less or equal to target. Since the
- * answer may be too large, return it modulo 10^9 + 7.
+ * Return the number of non-empty subsequences of nums such that the sum of
+ * the minimum and maximum element on it is less or equal to target. Since
+ * the answer may be too large, return it modulo 10^9 + 7.
  *
  *
  * Example 1:
@@ -37,8 +37,8 @@
  *
  * Input: nums = [3,3,6,8], target = 10
  * Output: 6
- * Explanation: There are 6 subsequences that satisfy the condition. (nums can
- * have repeated numbers).
+ * Explanation: There are 6 subsequences that satisfy the condition. (nums
+ * can have repeated numbers).
  * [3] , [3] , [3,3], [3,6] , [3,6] , [3,3,6]
  *
  *
@@ -47,8 +47,8 @@
  *
  * Input: nums = [2,3,3,4,6,7], target = 12
  * Output: 61
- * Explanation: There are 63 non-empty subsequences, two of them do not satisfy
- * the condition ([6,7], [7]).
+ * Explanation: There are 63 non-empty subsequences, two of them do not
+ * satisfy the condition ([6,7], [7]).
  * Number of valid subsequences (63 - 2 = 61).
  *
  *

@@ -13,9 +13,9 @@
  * Total Submissions: 156K
  * Testcase Example:  '[1,3,3,2]\n[2,1,3,4]\n3'
  *
- * Given a directed acyclic graph, with n vertices numbered from 0 to n-1, and
- * an array edges where edges[i] = [fromi, toi] represents a directed edge from
- * node fromi to node toi.
+ * Given a directed acyclic graph, with n vertices numbered from 0 to n-1,
+ * and an array edges where edges[i] = [fromi, toi] represents a directed
+ * edge from node fromi to node toi.
  *
  * Find the smallest set of vertices from which all nodes in the graph are
  * reachable. It's guaranteed that a unique solution exists.
@@ -34,7 +34,8 @@
  * The four possible subsequence scores are:
  * - We choose the indices 0, 1, and 2 with score = (1+3+3) * min(2,1,3) = 7.
  * - We choose the indices 0, 1, and 3 with score = (1+3+2) * min(2,1,4) = 6.
- * - We choose the indices 0, 2, and 3 with score = (1+3+2) * min(2,3,4) = 12.
+ * - We choose the indices 0, 2, and 3 with score = (1+3+2) * min(2,3,4) =
+ *   12.
  * - We choose the indices 1, 2, and 3 with score = (3+3+2) * min(1,3,4) = 8.
  * Therefore, we return the max score, which is 12.
  *
@@ -46,7 +47,8 @@
  * Input: nums1 = [4,2,3,1,1], nums2 = [7,5,10,9,6], k = 1
  * Output: 30
  * Explanation:
- * Choosing index 2 is optimal: nums1[2] * nums2[2] = 3 * 10 = 30 is the maximum possible score.
+ * Choosing index 2 is optimal: nums1[2] * nums2[2] = 3 * 10 = 30 is the
+ * maximum possible score.
  *
  *
  *

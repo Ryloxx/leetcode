@@ -28,8 +28,8 @@
  * between low and high (inclusive).
  *
  * Return the number of different good strings that can be constructed
- * satisfying these properties. Since the answer can be large, return it modulo
- * 10^9 + 7.
+ * satisfying these properties. Since the answer can be large, return it
+ * modulo 10^9 + 7.
  *
  *
  * Example 1:

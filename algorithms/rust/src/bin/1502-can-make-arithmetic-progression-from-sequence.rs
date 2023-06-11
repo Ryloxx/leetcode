@@ -13,11 +13,11 @@
  * Total Submissions: 242.5K
  * Testcase Example:  '[3,5,1]'
  *
- * A sequence of numbers is called an arithmetic progression if the difference
- * between any two consecutive elements is the same.
+ * A sequence of numbers is called an arithmetic progression if the
+ * difference between any two consecutive elements is the same.
  *
- * Given an array of numbers arr, return true if the array can be rearranged to
- * form an arithmetic progression. Otherwise, return false.
+ * Given an array of numbers arr, return true if the array can be rearranged
+ * to form an arithmetic progression. Otherwise, return false.
  *
  *
  * Example 1:
@@ -34,8 +34,8 @@
  *
  * Input: arr = [1,2,4]
  * Output: false
- * Explanation: There is no way to reorder the elements to obtain an arithmetic
- * progression.
+ * Explanation: There is no way to reorder the elements to obtain an
+ * arithmetic progression.
  *
  *
  *

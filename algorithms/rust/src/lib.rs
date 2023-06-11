@@ -20,8 +20,8 @@ pub struct TestResult<T: PartialEq + Debug> {
 const IS_DEBUG: bool = false;
 // const LEETCODE_MAX_RECURSION_DEPTH: u32 = 20_000;
 // const LEETCODE_MAX_MEMORY: u32 = 800 * 1024 * 1024; // 800 MB
-// const LEETCODE_MAX_TIMEOUT_MS: i32 = if IS_DEBUG { 1000 * 60 * 60 } else { 3000 }; // 3000 ms
-// const BATCH_SIZE: u32 = 5;
+// const LEETCODE_MAX_TIMEOUT_MS: i32 = if IS_DEBUG { 1000 * 60 * 60 } else {
+// 3000 }; // 3000 ms const BATCH_SIZE: u32 = 5;
 const MAX_PRINT_WIDTH_RESULT: u32 = if IS_DEBUG { u32::MAX } else { 200 };
 
 impl<T: PartialEq + Debug> Debug for TestResult<T> {

@@ -41,8 +41,8 @@
  *
  * Input: nums = [1,5,0,2,-3]
  * Output: 0
- * Explanation: The product of all values in the array is 0, and signFunc(0) =
- * 0
+ * Explanation: The product of all values in the array is 0, and signFunc(0)
+ * = 0
  *
  *
  * Example 3:
@@ -50,8 +50,8 @@
  *
  * Input: nums = [-1,1,-1,1,-1]
  * Output: -1
- * Explanation: The product of all values in the array is -1, and signFunc(-1)
- * = -1
+ * Explanation: The product of all values in the array is -1, and
+ * signFunc(-1) = -1
  *
  *
  *

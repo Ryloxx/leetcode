@@ -14,12 +14,12 @@
  * Testcase Example:  '[1,2,3,7]'
  *
  * Alice and Bob continue their games with piles of stones. There are several
- * stones arranged in a row, and each stone has an associated value which is an
- * integer given in the array stoneValue.
+ * stones arranged in a row, and each stone has an associated value which is
+ * an integer given in the array stoneValue.
  *
- * Alice and Bob take turns, with Alice starting first. On each player's turn,
- * that player can take 1, 2, or 3 stones from the first remaining stones in
- * the row.
+ * Alice and Bob take turns, with Alice starting first. On each player's
+ * turn, that player can take 1, 2, or 3 stones from the first remaining
+ * stones in the row.
  *
  * The score of each player is the sum of the values of the stones taken. The
  * score of each player is 0 initially.
@@ -48,14 +48,14 @@
  *
  * Input: values = [1,2,3,-9]
  * Output: "Alice"
- * Explanation: Alice must choose all the three piles at the first move to win
- * and leave Bob with negative score.
- * If Alice chooses one pile her score will be 1 and the next move Bob's score
- * becomes 5. In the next move, Alice will take the pile with value = -9 and
- * lose.
- * If Alice chooses two piles her score will be 3 and the next move Bob's score
- * becomes 3. In the next move, Alice will take the pile with value = -9 and
- * also lose.
+ * Explanation: Alice must choose all the three piles at the first move to
+ * win and leave Bob with negative score.
+ * If Alice chooses one pile her score will be 1 and the next move Bob's
+ * score becomes 5. In the next move, Alice will take the pile with value =
+ * -9 and lose.
+ * If Alice chooses two piles her score will be 3 and the next move Bob's
+ * score becomes 3. In the next move, Alice will take the pile with value =
+ * -9 and also lose.
  * Remember that both play optimally so here Alice will choose the scenario
  * that makes her win.
  *
