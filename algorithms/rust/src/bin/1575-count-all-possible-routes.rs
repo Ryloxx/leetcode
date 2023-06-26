@@ -80,7 +80,6 @@
 
 struct Solution;
 // @lc code=start
-use std::collections::HashMap;
 impl Solution {
     pub fn count_routes(locations: Vec<i32>, start: i32, finish: i32, fuel: i32) -> i32 {
         const MOD: i32 = 1_000_000_007;

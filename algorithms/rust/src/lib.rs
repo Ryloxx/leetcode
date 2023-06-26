@@ -8,6 +8,8 @@ use std::{
     time::{Duration, Instant},
 };
 
+use rayon::prelude::{IndexedParallelIterator, IntoParallelIterator, ParallelIterator};
+
 pub struct TestResult<T: PartialEq + Debug> {
     expected: T,
     result: Option<T>,
@@ -61,65 +63,41 @@ where
 {
     let f = Arc::new(f);
     let cmp = Rc::new(cmp);
+
     input
-        .into_iter()
+        .into_par_iter()
         .enumerate()
         .map(|(id, (f_in, expected))| {
-            let f = f.clone();
-            (
+            let start = Instant::now();
+            let result = catch_unwind(|| f(f_in));
+            let time = start.elapsed();
+            (id, (result, time), expected)
+        })
+        .collect::<Vec<(usize, (Result<V, Box<dyn Any + Send>>, Duration), V)>>()
+        .into_iter()
+        .map(|(id, result, expected)| match result {
+            (Ok(ret), time) => TestResult {
+                error: None,
+                expected,
                 id,
-                thread::spawn(move || {
-                    let start = Instant::now();
-                    let result = catch_unwind(|| f(f_in));
-                    let time = start.elapsed();
-                    (result, time)
+                result: Some(ret),
+                time,
+                cmp_f: cmp.clone(),
+            },
+            (Err(error), time) => TestResult {
+                error: Some(if let Some(error) = error.downcast_ref::<String>() {
+                    format!("{:#?}", error)
+                } else if let Some(error) = error.downcast_ref::<&str>() {
+                    format!("{:#?}", error)
+                } else {
+                    format!("{:#?}", error)
                 }),
                 expected,
-            )
-        })
-        .collect::<Vec<(
-            usize,
-            JoinHandle<(Result<V, Box<dyn Any + Send>>, Duration)>,
-            V,
-        )>>()
-        .into_iter()
-        .map(|(id, handle, expected)| {
-            let result = handle.join();
-            if let Ok(result) = result {
-                match result {
-                    (Ok(ret), time) => TestResult {
-                        error: None,
-                        expected,
-                        id,
-                        result: Some(ret),
-                        time,
-                        cmp_f: cmp.clone(),
-                    },
-                    (Err(error), time) => TestResult {
-                        error: Some(if let Some(error) = error.downcast_ref::<String>() {
-                            format!("{:#?}", error)
-                        } else if let Some(error) = error.downcast_ref::<&str>() {
-                            format!("{:#?}", error)
-                        } else {
-                            format!("{:#?}", error)
-                        }),
-                        expected,
-                        id,
-                        result: None,
-                        time,
-                        cmp_f: cmp.clone(),
-                    },
-                }
-            } else {
-                TestResult {
-                    error: Some("Unexpected Error".to_string()),
-                    expected,
-                    id,
-                    result: None,
-                    time: Duration::new(0, 0),
-                    cmp_f: cmp.clone(),
-                }
-            }
+                id,
+                result: None,
+                time,
+                cmp_f: cmp.clone(),
+            },
         })
         .for_each(|res| {
             println!("{:?}", res);
