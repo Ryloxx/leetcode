@@ -100,24 +100,21 @@ impl Solution {
         let candidates = candidates as usize;
         let mut left_idx = candidates.min(costs.len());
         let mut right_idx = candidates.max(costs.len() - candidates) - 1;
-        let mut q = BinaryHeap::with_capacity(left_idx + costs.len() - right_idx - 1);
-        q.extend(
-            costs
-                .iter()
-                .take(left_idx)
-                .map(|x| (-x as i64, 1))
-                .chain(
-                    costs
-                        .iter()
-                        .rev()
-                        .take(costs.len() - right_idx - 1)
-                        .map(|x| (-x as i64, 0)),
-                )
-                .collect::<BinaryHeap<(i64, usize)>>(),
-        );
+        let mut q: BinaryHeap<(i64, i32)> = costs
+            .iter()
+            .take(left_idx)
+            .map(|x| (-x as i64, 1))
+            .chain(
+                costs
+                    .iter()
+                    .rev()
+                    .take(costs.len() - right_idx - 1)
+                    .map(|x| (-x as i64, 0)),
+            )
+            .collect();
         (0..k)
             .into_iter()
-            .scan(q, |q, _| {
+            .scan(&mut q, |q, _| {
                 if let Some((x, y)) = q.pop() {
                     if y == 0 {
                         if right_idx >= left_idx {
