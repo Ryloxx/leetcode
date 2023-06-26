@@ -1,7 +1,7 @@
 use std::{
     any::Any,
     fmt::Debug,
-    panic::{catch_unwind, RefUnwindSafe, UnwindSafe},
+    panic::{catch_unwind, set_hook, take_hook, RefUnwindSafe, UnwindSafe},
     rc::Rc,
     sync::Arc,
     thread::{self, JoinHandle},
@@ -63,7 +63,8 @@ where
 {
     let f = Arc::new(f);
     let cmp = Rc::new(cmp);
-
+    let initial_panic_hook = take_hook();
+    set_hook(Box::new(|_| {}));
     input
         .into_par_iter()
         .enumerate()
@@ -102,4 +103,5 @@ where
         .for_each(|res| {
             println!("{:?}", res);
         });
+    set_hook(initial_panic_hook);
 }
