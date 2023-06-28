@@ -115,22 +115,21 @@ impl Solution {
         (0..k)
             .into_iter()
             .scan(&mut q, |q, _| {
-                if let Some((x, y)) = q.pop() {
-                    if y == 0 {
-                        if right_idx >= left_idx {
-                            q.push((-costs[right_idx] as i64, 0));
-                            right_idx -= 1;
-                        }
-                    } else {
-                        if left_idx <= right_idx {
-                            q.push((-costs[left_idx] as i64, 1));
-                            left_idx += 1;
-                        }
+                let Some((x, y)) = q.pop() else {
+                    return None
+                };
+                if y == 0 {
+                    if right_idx >= left_idx {
+                        q.push((-costs[right_idx] as i64, 0));
+                        right_idx -= 1;
                     }
-                    Some(-x)
                 } else {
-                    None
+                    if left_idx <= right_idx {
+                        q.push((-costs[left_idx] as i64, 1));
+                        left_idx += 1;
+                    }
                 }
+                Some(-x)
             })
             .sum()
     }
