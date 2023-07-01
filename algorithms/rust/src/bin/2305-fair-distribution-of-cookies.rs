@@ -68,7 +68,6 @@
  */
 struct Solution;
 // @lc code=start
-use std::collections::{HashMap, HashSet};
 impl Solution {
     pub fn distribute_cookies(cookies: Vec<i32>, k: i32) -> i32 {
         let res = &mut i32::MAX.clone();
