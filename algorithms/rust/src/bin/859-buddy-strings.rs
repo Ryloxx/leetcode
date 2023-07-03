@@ -72,28 +72,18 @@ impl Solution {
         let mut seen = 0;
         let mut duplicate = false;
         for (i, (a, b)) in s.bytes().zip(goal.bytes()).enumerate() {
-            if !duplicate {
-                let key = 1 << a - b'a';
-                duplicate = seen & key != 0;
-                seen |= key;
-            }
+            let key = 1 << a - b'a';
+            duplicate = duplicate || seen & key != 0;
+            seen |= key;
             if a != b {
-                if curr == 2 {
-                    return false;
-                }
-                swap[curr] = i;
+                swap[curr % 2] = i;
                 curr += 1;
             }
         }
-        match swap {
-            [usize::MAX, usize::MAX] => duplicate,
-            [usize::MAX, _] | [_, usize::MAX] => false,
-            [first, second] => {
-                let s = s.as_bytes();
-                let goal = goal.as_bytes();
-                s[first] == goal[second] && s[second] == goal[first]
-            }
-        }
+        curr == 0 && duplicate
+            || curr == 2
+                && s.as_bytes()[swap[0]] == goal.as_bytes()[swap[1]]
+                && s.as_bytes()[swap[1]] == goal.as_bytes()[swap[0]]
     }
 }
 // @lc code=end
