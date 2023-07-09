@@ -4,7 +4,6 @@ use std::{
     panic::{catch_unwind, set_hook, take_hook, RefUnwindSafe, UnwindSafe},
     rc::Rc,
     sync::Arc,
-    thread::{self, JoinHandle},
     time::{Duration, Instant},
 };
 
