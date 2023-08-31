@@ -66,9 +66,9 @@ impl Solution {
         for &n in nums.iter().rev() {
             let slots = (n + (last - 1)) / last;
             last = n / slots;
-            res += (slots - 1) as i64;
+            res += slots as i64;
         }
-        res
+        res - nums.len() as i64
     }
 }
 // @lc code=end
