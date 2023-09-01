@@ -13,11 +13,11 @@
  * Total Submissions: 264.6K
  * Testcase Example:  '[[1,2],[2,3],[3,4]]'
  *
- * You are given an array of n pairs pairs where pairs[i] = [lefti, righti] and
- * lefti < righti.
+ * You are given an array of n pairs pairs where pairs[i] = [lefti, righti]
+ * and lefti < righti.
  *
- * A pair p2 = [c, d] follows a pair p1 = [a, b] if b < c. A chain of pairs can
- * be formed in this fashion.
+ * A pair p2 = [c, d] follows a pair p1 = [a, b] if b < c. A chain of pairs
+ * can be formed in this fashion.
  *
  * Return the length longest chain which can be formed.
  *
