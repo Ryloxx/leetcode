@@ -69,18 +69,32 @@ impl Solution {
     // O(1) space complexity
     pub fn count_bits(n: i32) -> Vec<i32> {
         let n = n as usize + 1;
-        let mut res = Vec::with_capacity(n.next_power_of_two() + 1);
+        let mut res = vec![1; n.next_power_of_two() + 1];
         let mut i = 1;
-        res.push(0);
+        let mut k = 1;
+        res[0] = 0;
         for _ in 0..n.next_power_of_two().trailing_zeros() {
             for j in 0..i {
-                res.push(res[j] + 1);
+                res[k] += res[j];
+                k += 1;
             }
             i <<= 1;
         }
         res.truncate(n);
         res
     }
+    // Shorter
+    // O(N) time complexity
+    // O(1) space complexity
+    // pub fn count_bits(n: i32) -> Vec<i32> {
+    //     let n = n as usize + 1;
+    //     let mut res = Vec::with_capacity(n);
+    //     res.push(0);
+    //     for i in 1..n {
+    //         res.push(res[i & (i - 1)] + 1);
+    //     }
+    //     res
+    // }
 
     // O(N) time complexity (count_ones() use ctpop intrinsic which is constant
     // time)
