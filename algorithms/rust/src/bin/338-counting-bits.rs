@@ -69,18 +69,14 @@ impl Solution {
     // O(1) space complexity
     pub fn count_bits(n: i32) -> Vec<i32> {
         let n = n as usize + 1;
-        let mut res = vec![1; n.next_power_of_two() + 1];
+        let mut res = vec![0; n];
         let mut i = 1;
-        let mut k = 1;
-        res[0] = 0;
-        for _ in 0..n.next_power_of_two().trailing_zeros() {
-            for j in 0..i {
-                res[k] += res[j];
-                k += 1;
+        while i < n {
+            for j in 0..i.min(n - i) {
+                res[i + j] = res[j] + 1;
             }
             i <<= 1;
         }
-        res.truncate(n);
         res
     }
     // Shorter
