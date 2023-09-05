@@ -1,6 +1,26 @@
 {
-    "python.analysis.typeCheckingMode": "basic",
-    "python.formatting.provider": "yapf",
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true
+  // leetcode expected settings
+  // "leetcode.workspaceFolder": "Absolute\\path\\to\\algorithms",
+  // "leetcode.showDescription": "In File Comment",
+  // "leetcode.hint.commentDescription": false,
+  // "leetcode.hint.commandShortcut": false,
+  // "leetcode.hint.configWebviewMarkdown": false,
+  // "leetcode.showLocked": true,
+  // "leetcode.hint.setDefaultLanguage": false,
+  // "leetcode.filePath": {
+  //   "rust": {
+  //     "folder": "${language}/src/bin",
+  //     "filename": "${id}-${kebab-case-name}.${ext}"
+  //   },
+  //   "default": {
+  //     "folder": "${language}",
+  //     "filename": "${id}.${kebab-case-name}.${ext}"
+  //   }
+  // },
+  "rust-analyzer.linkedProjects": ["algorithms/rust/Cargo.toml"],
+  "rust-analyzer.showUnlinkedFileNotification": false,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.formatting.provider": "yapf",
+  "python.linting.flake8Enabled": true,
+  "python.linting.enabled": true
 }

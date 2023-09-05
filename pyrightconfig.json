@@ -1,6 +1,6 @@
 {
     "include": [
-        "algorithms"
+        "algorithms/python3"
     ],
     "exclude": [
         "**/__pycache__",
