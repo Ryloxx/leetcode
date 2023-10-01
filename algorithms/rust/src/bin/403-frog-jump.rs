@@ -64,7 +64,7 @@ struct Solution;
 impl Solution {
     pub fn can_cross(stones: Vec<i32>) -> bool {
         use std::collections::HashMap;
-        // #[allow(unused_imports)]
+        #[allow(unused_imports)]
         use std::iter::FromIterator;
 
         fn dp(

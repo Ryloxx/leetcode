@@ -5,10 +5,9 @@ on:
       - master
   pull_request:
 
-
 jobs:
-  test:
-    name: TEST
+  python:
+    name: TEST PYTHON
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,9 +15,9 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.10' 
-          architecture: 'x64'
-          cache: 'pip'
+          python-version: "3.10"
+          architecture: "x64"
+          cache: "pip"
       - name: Install Python requirements
         run: pip install -r requirements.txt
       - name: Derive appropriate SHAs for base and head
@@ -27,4 +26,22 @@ jobs:
         with:
           main-branch-name: master
       - name: Execute Python algorithms
-        run: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E ^[MTAC].+\.py$ | sed "s/^.\s*//g" | xargs -t -i python {}
+        run: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E "^[MTAC]\s*+algorithms\/python3\/.+\.py$" | sed "s/^.\s*//" | xargs -I %  python3 %
+  rust:
+    name: TEST RUST
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Derive appropriate SHAs for base and head
+        uses: nrwl/nx-set-shas@v2
+        id: shas
+        with:
+          main-branch-name: master
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --all-features
+      - name: Execute Rust algorithms
+        run: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E "^[MTAC]\s*+algorithms\/rust\/src\/bin\/.+\.rs$" | sed "s/^.\s*//" | xargs -d '\n' basename -s .rs | xargs -I % -n 1 -d '\n' sh -c "cd algorithms/rust &&  cargo run --bin % || exit 255"
