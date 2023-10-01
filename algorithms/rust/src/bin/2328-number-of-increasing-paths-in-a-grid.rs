@@ -80,7 +80,7 @@ impl Solution {
                 return *memo;
             }
             let mut res = 1;
-            for (dy, dx) in directions.as_ref() {
+            for (dy, dx) in directions {
                 let ny = y.wrapping_add(*dy);
                 let nx = x.wrapping_add(*dx);
                 if ny < m && nx < n && grid[ny][nx] < grid[y][x] {
@@ -89,7 +89,7 @@ impl Solution {
                 }
             }
             memo.insert((y, x), res);
-            return res;
+            res
         }
         let mut memo = HashMap::new();
         let mut res = 0;
@@ -105,7 +105,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::count_paths(e),
+        Solution::count_paths,
         vec![
             //
             (vec![vec![1, 1], vec![3, 4]], 8),

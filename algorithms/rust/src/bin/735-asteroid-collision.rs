@@ -92,7 +92,7 @@ impl Solution {
 
 fn main() {
     rust::test_algo(
-        |e| Solution::asteroid_collision(e),
+        Solution::asteroid_collision,
         vec![
             ((vec![5, 10, -5]), vec![5, 10]),
             ((vec![5, 5, -5]), vec![5]),

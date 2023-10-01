@@ -101,8 +101,7 @@
 struct Solution;
 // @lc code=start
 impl Solution {
-    pub fn full_justify(mut words: Vec<String>, max_width: i32) -> Vec<String> {
-        use std::iter::FromIterator;
+    pub fn full_justify(words: Vec<String>, max_width: i32) -> Vec<String> {
         fn add_white_space(len: usize, s: &mut String) {
             s.extend(std::iter::repeat(' ').take(len))
         }
@@ -130,7 +129,7 @@ impl Solution {
                     let mut line: String = String::from(current_line_words[0]);
                     for (u, &w) in current_line_words.iter().skip(1).enumerate() {
                         add_white_space(full + (u < left_over) as usize, &mut line);
-                        line.extend(w.chars());
+                        line.push_str(w);
                     }
                     res.push(line);
                 }

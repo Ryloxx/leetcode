@@ -94,14 +94,12 @@ impl Solution {
             if let Some(&res) = memo.get(&(idx, alice_turn)) {
                 return res;
             }
-            let it = (1..=3).into_iter().scan(0i32, |acc, x| {
+            let it = (1..=3).scan(0i32, |acc, x| {
                 if idx + x > piles.len() {
                     return None;
                 }
                 *acc += piles[idx + x - 1];
-                return Some(
-                    dp(idx + x, !alice_turn, &piles, memo) + if alice_turn { *acc } else { 0 },
-                );
+                Some(dp(idx + x, !alice_turn, piles, memo) + if alice_turn { *acc } else { 0 })
             });
             let res = if alice_turn {
                 it.max().unwrap_or(0)
@@ -109,7 +107,7 @@ impl Solution {
                 it.min().unwrap_or(0)
             };
             memo.insert((idx, alice_turn), res);
-            return res;
+            res
         }
         match (2 * dp(0, true, &stone_value, &mut HashMap::new()))
             .cmp(&stone_value.iter().sum::<i32>())
@@ -124,7 +122,7 @@ impl Solution {
 
 fn main() {
     rust::test_algo(
-        |s| Solution::stone_game_iii(s),
+        Solution::stone_game_iii,
         vec![
             (vec![1, 2, 3, 7], "Bob".to_string()),
             (vec![1, 2, 3, -9], "Alice".to_string()),

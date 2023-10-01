@@ -74,7 +74,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::minimum_replacement(e),
+        Solution::minimum_replacement,
         vec![
             ((vec![3, 9, 3]), 2),
             ((vec![1, 2, 3, 4, 5]), 0),

@@ -74,14 +74,8 @@ impl Solution {
 
 fn main() {
     rust::test_algo(
-        |s| Solution::count_orders(s),
-        vec![
-            ///
-            (1, 1),
-            (2, 6),
-            (3, 90),
-            (500, 764678010),
-        ],
+        Solution::count_orders,
+        vec![(1, 1), (2, 6), (3, 90), (500, 764678010)],
         |a, b| a == b,
     )
 }

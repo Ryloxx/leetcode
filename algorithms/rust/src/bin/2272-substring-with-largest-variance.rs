@@ -69,13 +69,13 @@ impl Solution {
         let letters = s
             .as_bytes()
             .iter()
-            .fold(0, |acc, curr| acc | 1 << curr - b'a');
+            .fold(0, |acc, curr| acc | 1 << (curr - b'a'));
         for a in b'a'..=b'z' {
-            if letters & 1 << a - b'a' == 0 {
+            if letters & 1 << (a - b'a') == 0 {
                 continue;
             }
             for b in b'a'..=b'z' {
-                if letters & 1 << b - b'a' == 0 {
+                if letters & 1 << (b - b'a') == 0 {
                     continue;
                 }
                 let mut curr_a = 0;
@@ -108,7 +108,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::largest_variance(e),
+        Solution::largest_variance,
         vec![
             //
             (("aababbb".to_string()), 3),

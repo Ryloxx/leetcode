@@ -56,12 +56,12 @@ pub struct ListNode {
     pub next: Option<Box<ListNode>>,
 }
 
-impl ListNode {
-    #[inline]
-    fn new(val: i32) -> Self {
-        ListNode { next: None, val }
-    }
-}
+// impl ListNode {
+//     #[inline]
+//     fn new(val: i32) -> Self {
+//         ListNode { next: None, val }
+//     }
+// }
 
 struct Solution;
 // @lc code=start
@@ -84,7 +84,7 @@ struct Solution;
 impl Solution {
     pub fn swap_pairs(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
         unsafe fn next(x: *mut Box<ListNode>) -> Option<*mut Box<ListNode>> {
-            return Some((*x).next.as_mut()? as *mut Box<ListNode>);
+            Some((*x).next.as_mut()? as *mut Box<ListNode>)
         }
         let mut head = head;
         if head.is_some() {
@@ -102,7 +102,7 @@ impl Solution {
                 }
             }
         }
-        return head;
+        head
     }
 }
 // @lc code=end
@@ -154,7 +154,7 @@ fn main() {
         })),
     });
     rust::test_algo(
-        |e| Solution::swap_pairs(e),
+        Solution::swap_pairs,
         vec![
             (Some(list_in_1), Some(list_out_1)),
             (Some(list_in_2), Some(list_out_2)),

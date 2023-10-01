@@ -57,7 +57,7 @@ struct Solution;
 impl Solution {
     pub fn min_flips(a: i32, b: i32, c: i32) -> i32 {
         let r = (a | b) ^ c;
-        return (r.count_ones() + (r & a & b).count_ones()) as i32;
+        (r.count_ones() + (r & a & b).count_ones()) as i32
     }
 }
 // @lc code=end

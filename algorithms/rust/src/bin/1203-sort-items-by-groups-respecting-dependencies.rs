@@ -130,7 +130,7 @@ impl Solution {
             if !sort(
                 j,
                 &mut group_order,
-                &mut group_graph_deps,
+                &group_graph_deps,
                 &mut HashSet::new(),
                 &mut seen,
                 &|u, v| u != v,

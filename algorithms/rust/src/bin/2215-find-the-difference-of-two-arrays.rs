@@ -76,7 +76,7 @@ impl Solution {
             2 => res[1].push((i as i32) - 1000),
             _ => {}
         });
-        return res;
+        res
     }
 }
 // @lc code=end
@@ -92,12 +92,12 @@ fn main() {
             let mut a = a.clone();
             let mut b = b.clone();
 
-            fn sort(v: &mut Vec<Vec<i32>>) {
+            fn sort(v: &mut [Vec<i32>]) {
                 v.iter_mut().for_each(|x| x.sort())
             }
             sort(&mut a);
             sort(&mut b);
-            return a == b;
+            a == b
         },
     );
 }

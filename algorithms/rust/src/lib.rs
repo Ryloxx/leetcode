@@ -9,13 +9,14 @@ use std::{
 
 use rayon::prelude::{IndexedParallelIterator, IntoParallelIterator, ParallelIterator};
 
+type CompF<T> = Rc<dyn Fn(&T, &T) -> bool>;
 pub struct TestResult<T: PartialEq + Debug> {
     expected: T,
     result: Option<T>,
     id: usize,
     time: Duration,
     error: Option<String>,
-    cmp_f: Rc<dyn Fn(&T, &T) -> bool>,
+    cmp_f: CompF<T>,
 }
 
 const IS_DEBUG: bool = false;

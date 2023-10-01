@@ -95,7 +95,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::peak_index_in_mountain_array(e),
+        Solution::peak_index_in_mountain_array,
         vec![
             ((vec![0, 1, 0]), 1),
             ((vec![0, 2, 1, 0]), 1),

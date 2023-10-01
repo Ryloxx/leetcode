@@ -94,7 +94,7 @@ impl Solution {
 
 fn main() {
     rust::test_algo(
-        |e| Solution::summary_ranges(e),
+        Solution::summary_ranges,
         vec![
             (
                 (vec![0, 1, 2, 4, 5, 7]),
@@ -112,11 +112,7 @@ fn main() {
             ),
             ((vec![0]), vec!["0"].into_iter().map(String::from).collect()),
             (
-                ((0..20)
-                    .into_iter()
-                    .enumerate()
-                    .map(|x| x.0 as i32)
-                    .collect()),
+                ((0..20).enumerate().map(|x| x.0 as i32).collect()),
                 vec!["0->19"].into_iter().map(String::from).collect(),
             ),
         ],

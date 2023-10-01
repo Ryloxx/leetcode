@@ -79,7 +79,7 @@ impl MyHashSet {
 
     fn add(&mut self, key: i32) {
         let bucket = &mut self.buckets[key.unsigned_abs() as usize % self.size];
-        if let None = bucket.iter().position(|&x| x == key) {
+        if !bucket.iter().any(|&x| x == key) {
             bucket.push(key)
         }
     }
@@ -93,7 +93,7 @@ impl MyHashSet {
 
     fn contains(&self, key: i32) -> bool {
         let bucket = &self.buckets[key.unsigned_abs() as usize % self.size];
-        return bucket.iter().position(|&x| x == key).is_some();
+        return bucket.iter().any(|&x| x == key);
     }
 }
 

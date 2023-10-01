@@ -71,7 +71,7 @@ impl Solution {
 
 fn main() {
     rust::test_algo(
-        |e| Solution::generate_matrix(e),
+        Solution::generate_matrix,
         vec![
             (3, vec![vec![1, 2, 3], vec![8, 9, 4], vec![7, 6, 5]]),
             (1, vec![vec![1]]),

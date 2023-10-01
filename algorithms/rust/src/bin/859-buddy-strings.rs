@@ -72,7 +72,7 @@ impl Solution {
         let mut seen = 0;
         let mut duplicate = false;
         for (i, (a, b)) in s.bytes().zip(goal.bytes()).enumerate() {
-            let key = 1 << a - b'a';
+            let key = 1 << (a - b'a');
             duplicate = duplicate || seen & key != 0;
             seen |= key;
             if a != b {
@@ -101,12 +101,10 @@ fn main() {
             (
                 (
                     ('a'..'b')
-                        .into_iter()
                         .cycle()
                         .take(2 * 10usize.pow(4))
                         .collect::<String>(),
                     ('a'..'b')
-                        .into_iter()
                         .cycle()
                         .take(2 * 10usize.pow(4))
                         .collect::<String>(),

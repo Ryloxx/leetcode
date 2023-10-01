@@ -144,7 +144,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::count_bits(e),
+        Solution::count_bits,
         vec![
             ((2), vec![0, 1, 1]),
             ((5), vec![0, 1, 1, 2, 1, 2]),

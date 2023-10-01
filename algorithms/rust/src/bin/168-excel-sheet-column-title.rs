@@ -67,7 +67,7 @@ impl Solution {
         while column_number != 0 {
             column_number -= 1;
             ret.push((b'A' + (column_number % 26) as u8) as char);
-            column_number = column_number / 26;
+            column_number /= 26;
         }
         ret.into_iter().rev().collect()
     }
@@ -75,7 +75,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::convert_to_title(e),
+        Solution::convert_to_title,
         vec![
             ((1), "A".to_string()),
             ((28), "AB".to_string()),

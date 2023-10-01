@@ -52,12 +52,12 @@ pub struct ListNode {
     pub next: Option<Box<ListNode>>,
 }
 
-impl ListNode {
-    #[inline]
-    fn new(val: i32) -> Self {
-        ListNode { next: None, val }
-    }
-}
+// impl ListNode {
+//     #[inline]
+//     fn new(val: i32) -> Self {
+//         ListNode { next: None, val }
+//     }
+// }
 
 struct Solution;
 // @lc code=start
@@ -95,7 +95,7 @@ impl Solution {
             }
             std::mem::swap(&mut (*left).val, &mut (*right).val);
         }
-        return head;
+        head
     }
 }
 // @lc code=end

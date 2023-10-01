@@ -95,15 +95,15 @@ impl Solution {
         const RANKS_MASK: u64 = 0x7fff << RANKS_SHIFT;
         const POS_MASK: u64 = 0b11 << POS_SHIFT;
         let mut all = vec![0u64; row * col];
-        for idx in 0..row * col {
+        (0..row * col).for_each(|idx| {
             all[idx] |= (idx as u64) << PARENTS_SHIFT;
-        }
+        });
         for x in 0..col {
             all[x] |= 1 << POS_SHIFT;
             all[(row - 1) * col + x] |= 2 << POS_SHIFT;
         }
 
-        fn find(mut x: usize, all: &Vec<u64>) -> usize {
+        fn find(mut x: usize, all: &[u64]) -> usize {
             loop {
                 let px = ((all[x] & PARENTS_MASK) >> PARENTS_SHIFT) as usize;
                 if px == x {
@@ -113,7 +113,7 @@ impl Solution {
             }
         }
 
-        fn union(x: usize, y: usize, all: &mut Vec<u64>) -> u64 {
+        fn union(x: usize, y: usize, all: &mut [u64]) -> u64 {
             let px = find(x, all);
             let py = find(y, all);
             let rank_x = (all[px] & (RANKS_MASK)) >> RANKS_SHIFT;

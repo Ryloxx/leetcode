@@ -74,14 +74,14 @@ impl Solution {
             }
             check ^= (xk - x0) ^ (i as i32 * r);
         }
-        return check == 0;
+        check == 0
     }
 }
 // @lc code=end
 
 fn main() {
     rust::test_algo(
-        |e| Solution::can_make_arithmetic_progression(e),
+        Solution::can_make_arithmetic_progression,
         vec![
             (vec![3, 5, 1], true),
             (vec![0, 0, 0, 0], true),

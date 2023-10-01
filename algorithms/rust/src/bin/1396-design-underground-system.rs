@@ -174,7 +174,7 @@ impl UndergroundSystem {
 
     fn get_average_time(&self, start_station: String, end_station: String) -> f64 {
         let (total_time, trip_count) = self.records.get(&(start_station, end_station)).unwrap();
-        return *total_time as f64 / *trip_count as f64;
+        *total_time as f64 / *trip_count as f64
     }
 }
 

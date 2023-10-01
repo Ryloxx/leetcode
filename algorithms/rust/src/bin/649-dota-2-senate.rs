@@ -115,7 +115,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |s| Solution::predict_party_victory(s),
+        Solution::predict_party_victory,
         vec![
             ("RD".to_string(), "Radiant".to_string()),
             ("RDD".to_string(), "Dire".to_string()),

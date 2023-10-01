@@ -122,7 +122,7 @@ impl Solution {
                 .or_insert(HashMap::new())
                 .insert(edge[0] as usize, prob);
         }
-        q.push((OrderedF64(1.), start as usize));
+        q.push((OrderedF64(1.), start));
         while !q.is_empty() {
             let (curr_prob, u) = q.pop().unwrap();
             if u == end {

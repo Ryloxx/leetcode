@@ -89,7 +89,7 @@ impl Solution {
         let n = questions.len();
         let mut dp = vec![0i64; n];
         dp[n - 1] = questions[n - 1][0] as i64;
-        (0..(n - 1)).rev().into_iter().for_each(|i| {
+        (0..(n - 1)).rev().for_each(|i| {
             dp[i] = dp[i + 1].max(
                 dp.get(1 + i + questions[i][1] as usize).unwrap_or(&0) + questions[i][0] as i64,
             )
@@ -100,7 +100,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::most_points(e),
+        Solution::most_points,
         vec![
             (vec![vec![3, 2], vec![4, 3], vec![4, 4], vec![2, 5]], 5),
             (

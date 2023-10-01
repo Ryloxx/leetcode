@@ -83,7 +83,7 @@ impl Solution {
 
 fn main() {
     rust::test_algo(
-        |e| Solution::array_sign(e),
+        Solution::array_sign,
         vec![
             ((vec![-1, -2, -3, -4, 3, 2, 1]), 1),
             ((vec![1, 5, 0, 2, -3]), 0),

@@ -101,7 +101,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::best_closing_time(e),
+        Solution::best_closing_time,
         vec![
             (("YYNY".to_string()), 2),
             (("YYYY".to_string()), 4),

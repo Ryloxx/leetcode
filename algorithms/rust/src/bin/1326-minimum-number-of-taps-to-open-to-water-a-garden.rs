@@ -67,14 +67,14 @@ impl Solution {
     // O(N) space complexity
     pub fn min_taps(n: i32, ranges: Vec<i32>) -> i32 {
         let mut p = vec![0; n as usize + 1];
-        for i in 0..ranges.len() {
-            let lo = i.checked_sub(ranges[i] as usize).unwrap_or(0);
-            p[lo] = p[lo].max(i + ranges[i] as usize);
+        for (i, range) in ranges.iter().enumerate() {
+            let lo = i.saturating_sub(*range as usize);
+            p[lo] = p[lo].max(i + *range as usize);
         }
         let mut res = 0;
         let mut best = 0;
         let mut curr_best = 0;
-        for i in 0..ranges.len() {
+        for (i, p) in p.iter().enumerate() {
             if i > best {
                 return -1;
             }
@@ -83,7 +83,7 @@ impl Solution {
                 res += 1;
             }
 
-            best = best.max(p[i]);
+            best = best.max(*p);
         }
         res
     }

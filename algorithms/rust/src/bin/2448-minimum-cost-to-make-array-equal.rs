@@ -65,11 +65,10 @@ struct Solution;
 impl Solution {
     pub fn min_cost(nums: Vec<i32>, cost: Vec<i32>) -> i64 {
         let n = nums.len();
-        let mut order = (0..n).into_iter().collect::<Vec<usize>>();
+        let mut order = (0..n).collect::<Vec<usize>>();
         order.sort_unstable_by_key(|x| nums[*x]);
         let full_s = cost.iter().map(|x| *x as i64).sum::<i64>();
         (0..n)
-            .into_iter()
             .scan(
                 (
                     nums.iter()

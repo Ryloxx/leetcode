@@ -80,9 +80,8 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |s| Solution::group_the_people(s),
+        Solution::group_the_people,
         vec![
-            ///
             (
                 vec![3, 3, 3, 3, 3, 1, 3],
                 vec![vec![5], vec![0, 1, 2], vec![3, 4, 6]],

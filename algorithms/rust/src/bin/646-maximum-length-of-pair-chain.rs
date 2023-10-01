@@ -60,8 +60,8 @@ impl Solution {
             .iter()
             .fold(&mut (i32::MIN, 0), |acc, curr| {
                 let p = (curr[0] > acc.0) as i32;
-                (*acc).0 = acc.0 * (1 - p) + curr[1] * p;
-                (*acc).1 += p;
+                acc.0 = acc.0 * (1 - p) + curr[1] * p;
+                acc.1 += p;
                 acc
             })
             .1
@@ -70,7 +70,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::find_longest_chain(e),
+        Solution::find_longest_chain,
         vec![
             ((vec![vec![1, 2], vec![2, 3], vec![3, 4]]), 2),
             ((vec![vec![1, 2], vec![7, 8], vec![4, 5]]), 3),

@@ -73,18 +73,16 @@ impl Solution {
         let mut nums1 = nums1;
         let mut nums2 = nums2;
         if nums1.len() < nums2.len() {
-            let temp = nums1;
-            nums1 = nums2;
-            nums2 = temp;
+            std::mem::swap(&mut nums1, &mut nums2);
         }
         let mut dp = vec![0; nums2.len() + 3];
         let n = nums2.len();
-        for i in 0..(nums1.len()) {
+        for n1 in nums1.iter() {
             dp[n + 1] = 0;
             for j in 1..(n + 1) {
                 dp[n + 2] = dp[j];
                 dp[j] = dp[j].max(dp[j - 1]);
-                if nums1[i] == nums2[j - 1] {
+                if *n1 == nums2[j - 1] {
                     dp[j] = dp[j].max(dp[n + 1] + 1);
                 }
                 dp[n + 1] = dp[n + 2];

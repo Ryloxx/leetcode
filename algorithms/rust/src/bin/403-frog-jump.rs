@@ -64,6 +64,7 @@ struct Solution;
 impl Solution {
     pub fn can_cross(stones: Vec<i32>) -> bool {
         use std::collections::HashMap;
+        // #[allow(unused_imports)]
         use std::iter::FromIterator;
 
         fn dp(
@@ -110,7 +111,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::can_cross(e),
+        Solution::can_cross,
         vec![
             ((vec![0, 1, 3, 5, 6, 8, 12, 17]), true),
             ((vec![0, 1, 2, 3, 4, 8, 9, 11]), false),

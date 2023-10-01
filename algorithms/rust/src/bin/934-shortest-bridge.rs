@@ -70,10 +70,10 @@ impl Solution {
         let mut res = 0;
         let mut i = 0;
         let (mut q1, mut q2) = (vec![], vec![]);
-        'a: for i in 0..grid.len() {
-            for j in 0..grid[i].len() {
-                if grid[i][j] == 1 {
-                    grid[i][j] = -1;
+        'a: for (i, line) in grid.iter_mut().enumerate() {
+            for (j, cell) in line.iter_mut().enumerate() {
+                if *cell == 1 {
+                    *cell = -1;
                     q1.push((i, j));
                     break 'a;
                 }
@@ -113,7 +113,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::shortest_bridge(e),
+        Solution::shortest_bridge,
         vec![
             (vec![vec![0, 1], vec![1, 0]], 1),
             (vec![vec![0, 1, 0], vec![0, 0, 0], vec![0, 0, 1]], 2),

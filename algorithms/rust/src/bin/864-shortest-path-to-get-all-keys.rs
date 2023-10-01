@@ -87,7 +87,7 @@ impl Solution {
         let mut visited = [[[false; 64]; 30]; 30];
         let mut q = VecDeque::new();
         for (y, row) in grid.iter().enumerate() {
-            for (x, cell) in row.chars().into_iter().enumerate() {
+            for (x, cell) in row.chars().enumerate() {
                 if cell as u8 == b'@' {
                     q.push_back((0i32, 0u32, y, x));
                 }
@@ -138,7 +138,7 @@ impl Solution {
 
 fn main() {
     rust::test_algo(
-        |e| Solution::shortest_path_all_keys(e),
+        Solution::shortest_path_all_keys,
         vec![
             (
                 ["@.a..", "###.#", "b.A.B"]

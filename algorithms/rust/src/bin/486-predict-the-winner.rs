@@ -96,7 +96,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::predict_the_winner(e),
+        Solution::predict_the_winner,
         vec![
             ((vec![1, 5, 2]), false),
             ((vec![1, 5, 233, 7]), true),

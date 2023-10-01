@@ -63,7 +63,7 @@ impl Solution {
         use std::collections::VecDeque;
         let k = k as usize;
         let mut q: VecDeque<usize> = VecDeque::new();
-        let mut res = vec![0; nums.len() - k as usize + 1];
+        let mut res = vec![0; nums.len() - k + 1];
         for i in 0..nums.len() {
             while !q.is_empty() && (q[0] + k <= i) {
                 q.pop_front();
@@ -73,7 +73,7 @@ impl Solution {
             }
             q.push_back(i);
             if i >= k - 1 {
-                res[(i + 1 - k) as usize] = nums[q[0]];
+                res[i + 1 - k] = nums[q[0]];
             }
         }
         res

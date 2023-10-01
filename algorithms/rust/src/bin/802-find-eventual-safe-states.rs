@@ -64,7 +64,7 @@
 
 struct Solution;
 // @lc code=start
-use std::collections::HashSet;
+
 impl Solution {
     pub fn eventual_safe_nodes(graph: Vec<Vec<i32>>) -> Vec<i32> {
         let mut memo: Vec<i32> = vec![-1; graph.len()];
@@ -88,10 +88,9 @@ impl Solution {
                 .all(|&neigh| dfs(neigh as usize, graph, memo, path) == 1)
                 as i32;
             path[curr] = false;
-            return memo[curr];
+            memo[curr]
         }
         (0..graph.len() as i32)
-            .into_iter()
             .filter(|&start| dfs(start as usize, &graph, &mut memo, &mut path) == 1)
             .collect()
     }
@@ -99,7 +98,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::eventual_safe_nodes(e),
+        Solution::eventual_safe_nodes,
         vec![
             (
                 (vec![

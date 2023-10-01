@@ -103,7 +103,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::longest_obstacle_course_at_each_position(e),
+        Solution::longest_obstacle_course_at_each_position,
         vec![
             (vec![1, 2, 3, 2], vec![1, 2, 3, 3]),
             (vec![2, 2, 1], vec![1, 2, 1]),
@@ -117,8 +117,8 @@ fn main() {
                 vec![1, 1, 1, 2, 3, 4, 2, 2, 3, 4],
             ),
             (
-                (1..10i32.pow(5)).into_iter().collect::<Vec<i32>>(),
-                (1..10i32.pow(5)).into_iter().collect::<Vec<i32>>(),
+                (1..10i32.pow(5)).collect::<Vec<i32>>(),
+                (1..10i32.pow(5)).collect::<Vec<i32>>(),
             ),
         ],
         |a, b| a == b,

@@ -1,6 +1,7 @@
 #
 # @lc app=leetcode id=135 lang=python3
 #
+#
 # [135] Candy
 #
 # https://leetcode.com/problems/candy/description/

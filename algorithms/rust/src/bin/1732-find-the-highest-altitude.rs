@@ -67,7 +67,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::largest_altitude(e),
+        Solution::largest_altitude,
         vec![
             //
             (vec![-5, 1, 5, 0, -7], 1),

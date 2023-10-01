@@ -57,31 +57,23 @@ use std::{
     hash::Hasher,
 };
 
-struct TrieNode {
-    value: i32,
-    children: Option<Box<HashMap<i32, TrieNode>>>,
-}
+// #[derive(Default)]
+// struct TrieNode {
+//     value: i32,
+//     children: Option<Box<HashMap<i32, TrieNode>>>,
+// }
 
-impl TrieNode {
-    fn insert(&mut self, num: i32) -> &mut Self {
-        if let None = self.children {
-            self.children = Some(Box::new(HashMap::new()));
-        }
-        return self.children.as_mut().unwrap().entry(num).or_default();
-    }
-    fn get(&self, num: i32) -> Option<&Self> {
-        return self.children.as_ref().unwrap().get(&num);
-    }
-}
-
-impl Default for TrieNode {
-    fn default() -> Self {
-        Self {
-            children: None,
-            value: 0,
-        }
-    }
-}
+// impl TrieNode {
+//     fn insert(&mut self, num: i32) -> &mut Self {
+//         if self.children.is_none() {
+//             self.children = Some(Box::default());
+//         }
+//         return self.children.as_mut().unwrap().entry(num).or_default();
+//     }
+//     fn get(&self, num: i32) -> Option<&Self> {
+//         return self.children.as_ref().unwrap().get(&num);
+//     }
+// }
 
 impl Solution {
     // Hash based
@@ -101,7 +93,7 @@ impl Solution {
             seen.entry(hash_col).or_default().1 += 1;
         }
 
-        seen.values().into_iter().map(|(r, c)| (r * c) as i32).sum()
+        seen.values().map(|(r, c)| (r * c) as i32).sum()
     }
 
     // Trie based
@@ -132,7 +124,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::equal_pairs(e),
+        Solution::equal_pairs,
         vec![
             (vec![vec![3, 2, 1], vec![1, 7, 6], vec![2, 7, 7]], 1),
             (

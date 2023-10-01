@@ -85,165 +85,8 @@
  *
  *
  */
+
 #![feature(test)]
-
-extern crate test;
-use test::Bencher;
-#[bench]
-fn v_1(bencher: &mut Bencher) {
-    pub fn k_weakest_rows(mut mat: Vec<Vec<i32>>, k: i32) -> Vec<i32> {
-        let k = k as usize;
-        let n = mat[0].len();
-        let mut res = Vec::with_capacity(k);
-        for (j, line) in mat.iter_mut().enumerate() {
-            line.push(0);
-            if line[0] == 0 {
-                res.push(j as i32);
-            }
-            if res.len() == k {
-                return res;
-            }
-        }
-        for i in 1..n {
-            for (j, line) in mat.iter().enumerate() {
-                if line[i - 1] + line[i] == 1 {
-                    res.push(j as i32);
-                }
-                if res.len() == k {
-                    return res;
-                }
-            }
-        }
-        res
-    }
-    let test = vec![
-        (
-            vec![
-                vec![1, 1, 0, 0, 0],
-                vec![1, 1, 1, 1, 0],
-                vec![1, 0, 0, 0, 0],
-                vec![1, 1, 0, 0, 0],
-                vec![1, 1, 1, 1, 1],
-            ],
-            3,
-        ),
-        (
-            vec![
-                vec![1, 0, 0, 0],
-                vec![1, 1, 1, 1],
-                vec![1, 0, 0, 0],
-                vec![1, 0, 0, 0],
-            ],
-            2,
-        ),
-        (
-            vec![
-                vec![1, 1, 0, 0, 0],
-                vec![1, 1, 1, 1, 0],
-                vec![1, 0, 0, 0, 0],
-                vec![1, 1, 0, 0, 0],
-                vec![0, 0, 0, 0, 0],
-            ],
-            3,
-        ),
-        (
-            vec![
-                vec![1, 1, 1, 1, 1, 1],
-                vec![1, 1, 1, 1, 1, 1],
-                vec![1, 1, 1, 1, 1, 1],
-            ],
-            1,
-        ),
-        (vec![vec![0, 0], vec![0, 0], vec![1, 1], vec![1, 1]], 1),
-    ];
-    bencher.iter(|| {
-        for (a, b) in test.iter() {
-            k_weakest_rows(a.clone(), *b);
-        }
-    });
-}
-
-#[bench]
-fn v_2(bencher: &mut Bencher) {
-    pub fn k_weakest_rows(mut mat: Vec<Vec<i32>>, k: i32) -> Vec<i32> {
-        let k = k as usize;
-        let n = mat[0].len();
-        let mut res = Vec::with_capacity(k);
-        for (j, line) in mat.iter_mut().enumerate() {
-            if line[0] == 0 {
-                res.push(j as i32);
-            }
-            if res.len() == k {
-                return res;
-            }
-        }
-        for i in 1..n {
-            for (j, line) in mat.iter().enumerate() {
-                if line[i - 1] + line[i] == 1 {
-                    res.push(j as i32);
-                }
-                if res.len() == k {
-                    return res;
-                }
-            }
-        }
-        let last = n - 1;
-        for (j, line) in mat.iter().enumerate() {
-            if line[last] == 1 {
-                res.push(j as i32);
-            }
-            if res.len() == k {
-                return res;
-            }
-        }
-        res
-    }
-    let test = vec![
-        (
-            vec![
-                vec![1, 1, 0, 0, 0],
-                vec![1, 1, 1, 1, 0],
-                vec![1, 0, 0, 0, 0],
-                vec![1, 1, 0, 0, 0],
-                vec![1, 1, 1, 1, 1],
-            ],
-            3,
-        ),
-        (
-            vec![
-                vec![1, 0, 0, 0],
-                vec![1, 1, 1, 1],
-                vec![1, 0, 0, 0],
-                vec![1, 0, 0, 0],
-            ],
-            2,
-        ),
-        (
-            vec![
-                vec![1, 1, 0, 0, 0],
-                vec![1, 1, 1, 1, 0],
-                vec![1, 0, 0, 0, 0],
-                vec![1, 1, 0, 0, 0],
-                vec![0, 0, 0, 0, 0],
-            ],
-            3,
-        ),
-        (
-            vec![
-                vec![1, 1, 1, 1, 1, 1],
-                vec![1, 1, 1, 1, 1, 1],
-                vec![1, 1, 1, 1, 1, 1],
-            ],
-            1,
-        ),
-        (vec![vec![0, 0], vec![0, 0], vec![1, 1], vec![1, 1]], 1),
-    ];
-    bencher.iter(|| {
-        for (a, b) in test.iter() {
-            k_weakest_rows(a.clone(), *b);
-        }
-    });
-}
 
 struct Solution;
 // @lc code=start
@@ -345,4 +188,166 @@ fn main() {
         ],
         |a, b| a == b,
     )
+}
+
+mod bench {
+    extern crate test;
+    #[allow(unused_imports)]
+    use test::Bencher;
+
+    #[bench]
+    fn v_1(bencher: &mut Bencher) {
+        pub fn k_weakest_rows(mut mat: Vec<Vec<i32>>, k: i32) -> Vec<i32> {
+            let k = k as usize;
+            let n = mat[0].len();
+            let mut res = Vec::with_capacity(k);
+            for (j, line) in mat.iter_mut().enumerate() {
+                line.push(0);
+                if line[0] == 0 {
+                    res.push(j as i32);
+                }
+                if res.len() == k {
+                    return res;
+                }
+            }
+            for i in 1..n {
+                for (j, line) in mat.iter().enumerate() {
+                    if line[i - 1] + line[i] == 1 {
+                        res.push(j as i32);
+                    }
+                    if res.len() == k {
+                        return res;
+                    }
+                }
+            }
+            res
+        }
+        let test = vec![
+            (
+                vec![
+                    vec![1, 1, 0, 0, 0],
+                    vec![1, 1, 1, 1, 0],
+                    vec![1, 0, 0, 0, 0],
+                    vec![1, 1, 0, 0, 0],
+                    vec![1, 1, 1, 1, 1],
+                ],
+                3,
+            ),
+            (
+                vec![
+                    vec![1, 0, 0, 0],
+                    vec![1, 1, 1, 1],
+                    vec![1, 0, 0, 0],
+                    vec![1, 0, 0, 0],
+                ],
+                2,
+            ),
+            (
+                vec![
+                    vec![1, 1, 0, 0, 0],
+                    vec![1, 1, 1, 1, 0],
+                    vec![1, 0, 0, 0, 0],
+                    vec![1, 1, 0, 0, 0],
+                    vec![0, 0, 0, 0, 0],
+                ],
+                3,
+            ),
+            (
+                vec![
+                    vec![1, 1, 1, 1, 1, 1],
+                    vec![1, 1, 1, 1, 1, 1],
+                    vec![1, 1, 1, 1, 1, 1],
+                ],
+                1,
+            ),
+            (vec![vec![0, 0], vec![0, 0], vec![1, 1], vec![1, 1]], 1),
+        ];
+        bencher.iter(|| {
+            for (a, b) in test.iter() {
+                k_weakest_rows(a.clone(), *b);
+            }
+        });
+    }
+
+    #[bench]
+    fn v_2(bencher: &mut Bencher) {
+        pub fn k_weakest_rows(mut mat: Vec<Vec<i32>>, k: i32) -> Vec<i32> {
+            let k = k as usize;
+            let n = mat[0].len();
+            let mut res = Vec::with_capacity(k);
+            for (j, line) in mat.iter_mut().enumerate() {
+                if line[0] == 0 {
+                    res.push(j as i32);
+                }
+                if res.len() == k {
+                    return res;
+                }
+            }
+            for i in 1..n {
+                for (j, line) in mat.iter().enumerate() {
+                    if line[i - 1] + line[i] == 1 {
+                        res.push(j as i32);
+                    }
+                    if res.len() == k {
+                        return res;
+                    }
+                }
+            }
+            let last = n - 1;
+            for (j, line) in mat.iter().enumerate() {
+                if line[last] == 1 {
+                    res.push(j as i32);
+                }
+                if res.len() == k {
+                    return res;
+                }
+            }
+            res
+        }
+        let test = vec![
+            (
+                vec![
+                    vec![1, 1, 0, 0, 0],
+                    vec![1, 1, 1, 1, 0],
+                    vec![1, 0, 0, 0, 0],
+                    vec![1, 1, 0, 0, 0],
+                    vec![1, 1, 1, 1, 1],
+                ],
+                3,
+            ),
+            (
+                vec![
+                    vec![1, 0, 0, 0],
+                    vec![1, 1, 1, 1],
+                    vec![1, 0, 0, 0],
+                    vec![1, 0, 0, 0],
+                ],
+                2,
+            ),
+            (
+                vec![
+                    vec![1, 1, 0, 0, 0],
+                    vec![1, 1, 1, 1, 0],
+                    vec![1, 0, 0, 0, 0],
+                    vec![1, 1, 0, 0, 0],
+                    vec![0, 0, 0, 0, 0],
+                ],
+                3,
+            ),
+            (
+                vec![
+                    vec![1, 1, 1, 1, 1, 1],
+                    vec![1, 1, 1, 1, 1, 1],
+                    vec![1, 1, 1, 1, 1, 1],
+                ],
+                1,
+            ),
+            (vec![vec![0, 0], vec![0, 0], vec![1, 1], vec![1, 1]], 1),
+        ];
+        bencher.iter(|| {
+            for (a, b) in test.iter() {
+                k_weakest_rows(a.clone(), *b);
+            }
+        });
+    }
 }

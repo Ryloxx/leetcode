@@ -61,9 +61,9 @@ impl Solution {
     pub fn max_profit(prices: Vec<i32>, fee: i32) -> i32 {
         let mut free = 0;
         let mut hold = -prices[0];
-        for i in 1..prices.len() {
-            let tmp_free = free.max(hold + prices[i] - fee);
-            let tmp_hold = hold.max(free - prices[i]);
+        for price in prices {
+            let tmp_free = free.max(hold + price - fee);
+            let tmp_hold = hold.max(free - price);
             free = tmp_free;
             hold = tmp_hold;
         }

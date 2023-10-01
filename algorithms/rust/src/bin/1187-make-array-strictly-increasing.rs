@@ -66,7 +66,7 @@ impl Solution {
         arr2.sort_unstable();
         let mut unique_sorted_arr2 = vec![];
         for i in arr2 {
-            if unique_sorted_arr2.len() == 0 || *(unique_sorted_arr2.last().unwrap()) != i {
+            if unique_sorted_arr2.is_empty() || *(unique_sorted_arr2.last().unwrap()) != i {
                 unique_sorted_arr2.push(i);
             }
         }
@@ -103,7 +103,7 @@ impl Solution {
                 }
             }
             memo.insert((i, prev), res);
-            return res;
+            res
         }
         dp(0, i32::MIN, &arr1, &unique_sorted_arr2, &mut HashMap::new()).max(-1)
     }

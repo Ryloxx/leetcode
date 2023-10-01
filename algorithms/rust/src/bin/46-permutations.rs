@@ -206,11 +206,10 @@ const LOOKUP_FACT: [usize; 8] = [1, 1, 2, 6, 24, 120, 720, 5040];
 impl Solution {
     pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>> {
         let n = nums.len();
-        return (LOOKUP_FACT[n]..LOOKUP_FACT[n + 1])
-            .into_iter()
+        (LOOKUP_FACT[n]..LOOKUP_FACT[n + 1])
             .step_by(n)
             .map(|s| LOOKUP[s..s + n].iter().map(|&x| nums[x]).collect())
-            .collect();
+            .collect()
     }
 
     // pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>> {
@@ -238,7 +237,7 @@ impl Solution {
 // @lc code=end
 fn main() {
     rust::test_algo(
-        |e| Solution::permute(e),
+        Solution::permute,
         vec![
             (
                 (vec![1, 2, 3]),
@@ -984,7 +983,7 @@ fn main() {
             let mut b = b.to_owned();
             a.sort_unstable();
             b.sort_unstable();
-            return a == b;
+            a == b
         },
     )
 }

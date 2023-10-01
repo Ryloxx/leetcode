@@ -92,10 +92,10 @@ impl Solution {
             if ones <= res {
                 continue;
             }
-            for i in 0..requests.len() {
+            for (i, request) in requests.iter().enumerate() {
                 if 1 << i & state != 0 {
-                    let from = requests[i][0] as usize;
-                    let to = requests[i][1] as usize;
+                    let from = request[0] as usize;
+                    let to = request[1] as usize;
                     buildings[from] -= 1;
                     buildings[to] += 1;
                 }

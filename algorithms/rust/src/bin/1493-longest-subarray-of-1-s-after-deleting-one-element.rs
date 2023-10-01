@@ -83,7 +83,7 @@ impl Solution {
 
 fn main() {
     rust::test_algo(
-        |e| Solution::longest_subarray(e),
+        Solution::longest_subarray,
         vec![
             ((vec![1, 1, 0, 1]), 3),
             ((vec![0, 1, 1, 1, 0, 1, 1, 0, 1]), 5),

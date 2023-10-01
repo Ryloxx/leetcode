@@ -113,7 +113,6 @@ impl Solution {
             )
             .collect();
         (0..k)
-            .into_iter()
             .scan(&mut q, |q, _| {
                 let Some((x, y)) = q.pop() else {
                     return None
@@ -123,11 +122,9 @@ impl Solution {
                         q.push((-costs[right_idx] as i64, 0));
                         right_idx -= 1;
                     }
-                } else {
-                    if left_idx <= right_idx {
-                        q.push((-costs[left_idx] as i64, 1));
-                        left_idx += 1;
-                    }
+                } else if left_idx <= right_idx {
+                    q.push((-costs[left_idx] as i64, 1));
+                    left_idx += 1;
                 }
                 Some(-x)
             })
