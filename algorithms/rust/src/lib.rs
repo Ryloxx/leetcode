@@ -8,15 +8,13 @@ use std::{
 };
 
 use rayon::prelude::{IndexedParallelIterator, IntoParallelIterator, ParallelIterator};
-
-type CompF<T> = Rc<dyn Fn(&T, &T) -> bool>;
 pub struct TestResult<T: PartialEq + Debug> {
     expected: T,
     result: Option<T>,
-    id: usize,
+    id: u32,
     time: Duration,
     error: Option<String>,
-    cmp_f: CompF<T>,
+    success: bool,
 }
 
 const IS_DEBUG: bool = false;
@@ -37,8 +35,8 @@ impl<T: PartialEq + Debug> Debug for TestResult<T> {
         ret.truncate(MAX_PRINT_WIDTH_RESULT as usize);
         expect.truncate(MAX_PRINT_WIDTH_RESULT as usize);
         write!(f, "Test nº \u{001B}[34m{}\u{001B}[0m - {} - {{'Time': '{}ms', 'Execution Error': {}, 'Result': '{:?}', 'Expected': '{:?}'}}", self.id,
-        if let Some(res) = self.result.as_ref() {
-            if self.cmp_f.as_ref()(&self.expected, res) {
+        if self.result.is_some() {
+            if self.success {
                 "\u{001B}[32mPass\u{001B}[0m"
             }else{
                 "\u{001B}[31mFail\u{001B}[0m"
@@ -65,6 +63,11 @@ where
     let cmp = Rc::new(cmp);
     let initial_panic_hook = take_hook();
     set_hook(Box::new(|_| {}));
+    let ci = if let Ok(value) = std::env::var("CI") {
+        value == "true"
+    } else {
+        false
+    };
     input
         .into_par_iter()
         .enumerate()
@@ -72,18 +75,18 @@ where
             let start = Instant::now();
             let result = catch_unwind(|| f(f_in));
             let time = start.elapsed();
-            (id, (result, time), expected)
+            (id as u32, (result, time), expected)
         })
-        .collect::<Vec<(usize, (Result<V, Box<dyn Any + Send>>, Duration), V)>>()
+        .collect::<Vec<(u32, (Result<V, Box<dyn Any + Send>>, Duration), V)>>()
         .into_iter()
         .map(|(id, result, expected)| match result {
             (Ok(ret), time) => TestResult {
+                success: cmp(&expected, &ret),
                 error: None,
                 expected,
                 id,
                 result: Some(ret),
                 time,
-                cmp_f: cmp.clone(),
             },
             (Err(error), time) => TestResult {
                 error: Some(if let Some(error) = error.downcast_ref::<String>() {
@@ -97,11 +100,15 @@ where
                 id,
                 result: None,
                 time,
-                cmp_f: cmp.clone(),
+                success: false,
             },
         })
         .for_each(|res| {
             println!("{:?}", res);
+            if ci && !res.success {
+                eprintln!("Exiting on fail because CI detected");
+                std::process::exit(1);
+            }
         });
     set_hook(initial_panic_hook);
 }
