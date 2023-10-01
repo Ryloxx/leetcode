@@ -39,9 +39,7 @@ jobs:
         id: shas
         with:
           main-branch-name: master
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release --all-features
+      - name: Install Rust toolchain 
+        uses: actions-rs/toolchain@v1
       - name: Execute Rust algorithms
         run: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E "^[MTAC]\s*+algorithms\/rust\/src\/bin\/.+\.rs$" | sed "s/^.\s*//" | xargs -d '\n' basename -s .rs | xargs -I % -n 1 -d '\n' sh -c "cd algorithms/rust &&  cargo run --bin % || exit 255"
