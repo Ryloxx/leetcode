@@ -1,10 +1,6 @@
 {
-    "include": [
-        "algorithms/python3"
-    ],
-    "exclude": [
-        "**/__pycache__",
-    ],
-    "reportUnusedExpression": "none",
-    "pythonVersion": "3.10",
+  "include": ["algorithms/python3"],
+  "exclude": ["**/__pycache__"],
+  "reportUnusedExpression": "none",
+  "pythonVersion": "3.10"
 }
