@@ -4,3 +4,7 @@ algorithms/472.concatenated-words.py
 **/.hypothesis
 algorithms/rust/target
 *.vim
+.direnv
+.envrc
+.venv
+.dev_shell_out
