@@ -1,4 +1,3 @@
-const { execSync } = require("child_process");
 const { statSync, readdirSync } = require("fs");
 const path = require("path");
 /**
@@ -7,9 +6,7 @@ const path = require("path");
 const findRustRootDir = (filePath) => {
   let current_path = filePath;
   let prev_path = "";
-  let cnt = 100;
-  while (cnt > 0 && prev_path != current_path) {
-    cnt--;
+  while (prev_path != current_path) {
     const s = statSync(current_path);
     if (s.isDirectory()) {
       const files = readdirSync(current_path);
