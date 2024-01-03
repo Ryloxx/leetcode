@@ -59,7 +59,6 @@ from types import MethodType
 
 # @lc code=start
 class Solution:
-
     def lengthOfLongestSubstring(self, s: str) -> int:
         memo, left, res = defaultdict(lambda: -1), -1, 0
         for right, c in enumerate(s):
@@ -85,9 +84,12 @@ if __name__ == "__main__":
             [["vqblqcb"], 4],
             [["tmmzuxt"], 5],
             [["dvdf"], 3],
-            [[
-                "ysbghjjrfumqjpyktddsnxftvdqgxzlvrneaynufhgy"
-                "qxwaqzelmbsiyxaeubrqvguvehpmrykhvikokqzwttg"
-            ], 12],
+            [
+                [
+                    "ysbghjjrfumqjpyktddsnxftvdqgxzlvrneaynufhgy"
+                    "qxwaqzelmbsiyxaeubrqvguvehpmrykhvikokqzwttg"
+                ],
+                12,
+            ],
         ],
     )

@@ -67,15 +67,15 @@ from types import MethodType
 
 # @lc code=start
 class Solution:
-
     # One pass
     # O(N) time complexity
     # O(1) space complexity
     def candy(self, ratings: List[int]) -> int:
         m = res = 0
         d = deltas = 1
-        for prev, curr in (itemgetter(x - 1, x)(ratings)
-                           for x in range(1, len(ratings))):
+        for prev, curr in (
+            itemgetter(x - 1, x)(ratings) for x in range(1, len(ratings))
+        ):
             res += deltas
             if curr > prev:
                 deltas = m = deltas + 1
