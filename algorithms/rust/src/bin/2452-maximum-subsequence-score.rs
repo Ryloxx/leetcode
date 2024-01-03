@@ -68,7 +68,7 @@ use std::collections::BinaryHeap;
 impl Solution {
     pub fn max_score(nums1: Vec<i32>, nums2: Vec<i32>, k: i32) -> i64 {
         let k = k as usize;
-        let mut order: Vec<(i32, i32)> = nums2.into_iter().zip(nums1.into_iter()).collect();
+        let mut order: Vec<(i32, i32)> = nums2.into_iter().zip(nums1).collect();
         order.sort_unstable();
         let mut h = BinaryHeap::with_capacity(k + 1);
         let mut score = 0;

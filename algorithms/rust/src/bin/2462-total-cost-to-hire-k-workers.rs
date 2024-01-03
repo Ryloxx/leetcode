@@ -114,7 +114,7 @@ impl Solution {
             .collect();
         (0..k)
             .scan(&mut q, |q, _| {
-                let Some((x, y)) = q.pop() else { return None };
+                let (x, y) = q.pop()?;
                 if y == 0 {
                     if right_idx >= left_idx {
                         q.push((-costs[right_idx] as i64, 0));

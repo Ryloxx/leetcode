@@ -48,7 +48,7 @@ impl Solution {
         }
         let n = n as usize;
         let mut matrix = vec![vec![0; n]; n];
-        let directions = vec![(0, 1), (1, 0), (0, !0), (!0, 0)];
+        let directions = [(0, 1), (1, 0), (0, !0), (!0, 0)];
         let mut current_direction = 0;
         let (mut y, mut x) = (0, 0);
         for i in 1..=(n * n) as i32 {

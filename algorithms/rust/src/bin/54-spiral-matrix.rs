@@ -51,7 +51,7 @@ impl Solution {
         }
         let mut matrix = matrix;
         let (m, n) = (matrix.len(), matrix[0].len());
-        let directions = vec![(0, 1), (1, 0), (0, !0), (!0, 0)];
+        let directions = [(0, 1), (1, 0), (0, !0), (!0, 0)];
         let mut current_direction = 0;
         let (mut y, mut x) = (0, 0);
         let mut res = vec![];

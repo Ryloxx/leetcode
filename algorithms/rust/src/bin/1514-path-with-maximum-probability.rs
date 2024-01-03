@@ -86,6 +86,7 @@ struct OrderedF64(f64);
 
 impl Eq for OrderedF64 {}
 
+#[allow(clippy::non_canonical_partial_ord_impl)]
 impl PartialOrd for OrderedF64 {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         self.0.partial_cmp(&other.0)
