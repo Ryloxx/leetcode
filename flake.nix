@@ -9,7 +9,7 @@
       in
       {
         devShells.default = pkgs.mkShell {
-          name = "ryloxx-mono";
+          name = "leetcode";
           venvDir = "./.venv";
           buildInputs = with pythonPackages;[
             python
