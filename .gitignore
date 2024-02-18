@@ -2,7 +2,7 @@
 test.txt
 algorithms/472.concatenated-words.py
 **/.hypothesis
-algorithms/rust/target
+target
 *.vim
 .direnv
 .envrc
