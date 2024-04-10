@@ -58,43 +58,24 @@ struct Solution;
 use std::collections::HashMap;
 impl Solution {
     pub fn subarrays_with_k_distinct(nums: Vec<i32>, k: i32) -> i32 {
-        let mut res = 0;
-        let mut left = 0;
-        let mut freqs: HashMap<i32, i32> = HashMap::new();
-        let mut right = 0;
-        let mut prev = 0;
-        while right < nums.len() {
-            *freqs.entry(nums[right]).or_default() += 1;
-            match freqs.len().cmp(&(k as usize)) {
-                std::cmp::Ordering::Equal => {
-                    res += 1;
-                }
-                std::cmp::Ordering::Greater => {
-                    while freqs.len() > (k as usize) {
-                        *freqs.get_mut(&nums[left]).unwrap() -= 1;
-                        if freqs[&nums[left]] == 0 {
-                            freqs.remove(&nums[left]);
-                        }
-                        res += 1;
-                        left += 1;
+        fn helper(nums: &Vec<i32>, k: i32) -> i32 {
+            let mut freqs: HashMap<i32, i32> = HashMap::new();
+            let mut left = 0;
+            let mut total_count = 0;
+            for right in 0..nums.len() {
+                *freqs.entry(nums[right]).or_default() += 1;
+                while freqs.len() > k as usize {
+                    *freqs.get_mut(&nums[left]).unwrap() -= 1;
+                    if freqs[&nums[left]] == 0 {
+                        freqs.remove(&nums[left]);
                     }
+                    left += 1;
                 }
-                std::cmp::Ordering::Less => {}
+                total_count += (right - left + 1) as i32
             }
-            right += 1;
+            total_count
         }
-        loop {
-            *freqs.get_mut(&nums[left]).unwrap() -= 1;
-            if freqs[&nums[left]] == 0 {
-                freqs.remove(&nums[left]);
-            }
-            if freqs.len() != (k as usize) {
-                break;
-            }
-            res += 1;
-            left += 1;
-        }
-        res
+        helper(&nums, k) - helper(&nums, k - 1)
     }
 }
 // @lc code=end
