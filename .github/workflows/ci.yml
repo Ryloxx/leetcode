@@ -26,28 +26,25 @@ jobs:
         with:
           path: .venv
           key: ${{ runner.os }}-python-${{ hashFiles('**/Pipfile.lock') }}
-      - uses: nixbuild/nix-quick-install-action@v26
+      - uses: cachix/install-nix-action@v25
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Restore and cache Nix store
-        uses: nix-community/cache-nix-action@v5
-        with:
-          primary-key: nix-${{ runner.os }}-${{ hashFiles('flake.lock') }}
-          restore-prefixes-first-match: nix-${{ runner.os }}-
-          gc-max-store-size-linux: 3073741824
-          purge: true
-          purge-prefixes: nix-${{ runner.os }}-
-          purge-created: 0
-          purge-primary-key: never
-      - uses: rrbutani/use-nix-shell-action@v1
-        with:
-          devShell: .#
       - name: Derive appropriate SHAs for base and head
         uses: nrwl/nx-set-shas@v2
         id: shas
         with:
           main-branch-name: master
       - name: Execute Python algorithms
-        run: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E "^[MTAC]\s*+algorithms\/python3\/.+\.py$" | sed "s/^.\s*//" | xargs -I %  python3 %
+        uses: rrbutani/use-nix-shell-action@v1
+        with:
+          clearEnvForScript: false
+          exportEnv: false
+          devShell: .#
+          script: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E "^[MTAC]\s*+algorithms\/python3\/.+\.py$" | sed "s/^.\s*//" | xargs -I %  python3 %
       - name: Execute Rust algorithms
-        run: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E "^[MTAC]\s*+algorithms\/rust\/src\/bin\/.+\.rs$" | sed "s/^.\s*//" | xargs -d '\n' basename -s .rs | xargs -I % -n 1 -d '\n' sh -c "cd algorithms/rust &&  cargo run --bin % || exit 255"
+        uses: rrbutani/use-nix-shell-action@v1
+        with:
+          clearEnvForScript: false
+          exportEnv: false
+          devShell: .#
+          script: git diff --name-status ${{ steps.shas.outputs.base }} ${{ steps.shas.outputs.head }} | grep -E "^[MTAC]\s*+algorithms\/rust\/src\/bin\/.+\.rs$" | sed "s/^.\s*//" | xargs -d '\n' basename -s .rs | xargs -I % -n 1 -d '\n' sh -c "cd algorithms/rust &&  cargo run --bin % || exit 255"
