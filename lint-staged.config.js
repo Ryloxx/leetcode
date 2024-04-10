@@ -30,9 +30,11 @@ module.exports = {
     /**
      * @param {string[]} allRustFiles
      */
-    (allRustFiles) =>
-      Array.from(new Set(allRustFiles.map(findRustRootDir))).map(
-        (root) => `cargo -C ${root} -Z unstable-options clippy -- -D warnings`,
-      ),
+    (allRustFiles) => {
+      console.log(allRustFiles);
+      return Array.from(new Set(allRustFiles.map(findRustRootDir))).map(
+        (root) => `./clippy-dirty.sh -u -b files -r ${root} -- -- -D warnings`,
+      );
+    },
   "**/*.{js,jsx,ts,tsx}": "prettier --write",
 };
