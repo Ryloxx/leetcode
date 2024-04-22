@@ -76,7 +76,7 @@
  */
 struct Solution;
 // @lc code=start
-use std::collections::{HashSet, VecDeque};
+use std::collections::VecDeque;
 impl Solution {
     pub fn open_lock(deadends: Vec<String>, target: String) -> i32 {
         fn to_u32(input: String) -> u32 {
@@ -85,18 +85,25 @@ impl Solution {
                 .iter()
                 .fold(0u32, |acc, curr| (acc << 4) | (curr - b'0') as u32)
         }
+        fn to_idx(input: u32) -> usize {
+            (0..4).fold(0, |acc, i| acc * 10 + ((input >> (i * 4)) & 0b1111)) as usize
+        }
         let mut q = VecDeque::<(u32, i32)>::new();
-        let mut seen = deadends.into_iter().map(to_u32).collect::<HashSet<u32>>();
+        let mut seen = [false; 10_000];
         let target = to_u32(target);
+        deadends
+            .into_iter()
+            .for_each(|deadend| seen[to_idx(to_u32(deadend))] = true);
         q.push_back((0, 0));
         while let Some((current, step)) = q.pop_front() {
-            if seen.contains(&current) {
+            let idx = to_idx(current);
+            if seen[idx] {
                 continue;
             }
-            seen.insert(current);
             if current == target {
                 return step;
             }
+            seen[idx] = true;
             let step = step + 1;
             for i in 0..4 {
                 let place = i * 4;
