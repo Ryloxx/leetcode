@@ -80,18 +80,26 @@ impl Solution {
     //     let n = grid[0].len();
     //     let mut h = BinaryHeap::new();
     //     h.push((0, 0, 0));
-    //     let mut seen = vec![false; m * (n + 1)];
+    //     let mut seen = vec![-1i32; m * (n + 1)];
     //     while let Some((d, i, j)) = h.pop() {
     //         if i == m {
     //             return (-d) - (CONSTANT * m as i32);
     //         }
-    //         for k in 0..n {
-    //             let idx = (i + 1) * n + k;
-    //             if (k == j && i > 0) || seen[idx] {
-    //                 continue;
+    //         match seen[i] {
+    //             -1 => {
+    //                 h.extend(
+    //                     (0..n)
+    //                         .filter(|k| *k != j || i == 0)
+    //                         .map(|k| (d - (grid[i][k] + CONSTANT), i + 1, k)),
+    //                 );
+    //                 seen[i] = j as i32;
     //             }
-    //             seen[idx] = true;
-    //             h.push((d - (grid[i][k] + CONSTANT), i + 1, k));
+    //             -2 => continue,
+    //             _ => {
+    //                 let k = seen[i] as usize;
+    //                 h.push((d - (grid[i][k] + CONSTANT), i + 1, k));
+    //                 seen[i] = -2;
+    //             }
     //         }
     //     }
     //     -1
