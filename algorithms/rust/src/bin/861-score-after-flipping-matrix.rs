@@ -60,11 +60,11 @@ impl Solution {
         let mut res = 0;
         for j in 0..n {
             let cnt = (0..m)
-                .map(|i| (grid[i][j] == grid[i][0]) as u32)
-                .sum::<u32>();
-            res += (cnt.max(m as u32 - cnt)) * (1 << (n - j - 1));
+                .map(|i| (grid[i][j] == grid[i][0]) as i32)
+                .sum::<i32>();
+            res += (cnt.max(m as i32 - cnt)) * (1 << (n - j - 1));
         }
-        res as i32
+        res
     }
 }
 // @lc code=end
