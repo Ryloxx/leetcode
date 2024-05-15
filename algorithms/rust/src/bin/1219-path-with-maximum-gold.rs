@@ -81,7 +81,7 @@ impl Solution {
             grid[i][j] = 0;
             let ret = DIRECTIONS
                 .iter()
-                .map(|&(dx, dy)| backtrack(i.wrapping_add(dx), j.wrapping_add(dy), grid))
+                .map(|&(dy, dx)| backtrack(i.wrapping_add(dy), j.wrapping_add(dx), grid))
                 .max()
                 .unwrap();
             grid[i][j] = prev;
