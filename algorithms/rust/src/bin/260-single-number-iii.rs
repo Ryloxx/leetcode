@@ -79,10 +79,7 @@ impl Solution {
     // O(1) space complexity
     pub fn single_number(nums: Vec<i32>) -> Vec<i32> {
         let a_xor_b = nums.iter().fold(0, |acc, curr| acc ^ curr);
-        let mut partition_bit = 1;
-        while partition_bit & a_xor_b == 0 {
-            partition_bit <<= 1;
-        }
+        let partition_bit = a_xor_b & a_xor_b.wrapping_neg();
         nums.into_iter()
             .fold([0, 0], |mut acc, curr| {
                 acc[((partition_bit & curr) as usize).min(1)] ^= curr;
