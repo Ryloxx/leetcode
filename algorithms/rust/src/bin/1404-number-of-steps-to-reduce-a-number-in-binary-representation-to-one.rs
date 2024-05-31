@@ -73,10 +73,9 @@ struct Solution;
 // @lc code=start
 impl Solution {
     pub fn num_steps(s: String) -> i32 {
-        let s_bytes = s.as_bytes();
         let mut carry = 0;
         let mut res = 0;
-        for &c in s_bytes.iter().skip(1).rev() {
+        for &c in s.as_bytes().iter().skip(1).rev() {
             let c = (c & 1) as i32;
             res += carry ^ c;
             carry |= c;
