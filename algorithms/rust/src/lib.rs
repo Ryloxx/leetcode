@@ -52,6 +52,9 @@ impl<T: PartialEq + Debug> Debug for TestResult<T> {
     }
 }
 
+/// Comparator function takes the expected value as first parameter and the
+/// returned value as second parameter and must return wether or not the test
+/// pass
 pub fn test_algo<F, T, V, C>(f: F, input: Vec<(T, V)>, cmp: C)
 where
     V: PartialEq + Debug + Send + 'static,
